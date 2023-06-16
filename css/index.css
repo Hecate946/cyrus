@@ -1,0 +1,117 @@
+a,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: "Roboto Mono", monospace;
+    background-color: #060e16;
+}
+
+.webpage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.navbar-item {
+    color: white;
+    padding: 8px;
+    margin: 4px;
+    border-radius: 8px;
+    transition: all 0.5s ease-in-out;
+}
+
+
+.navbar-item:hover {
+    color: white;
+    background-color: #042d3bd4;
+    transform: scale(1.1);
+}
+
+.icon-container {
+    padding: 8px;
+    font-weight: bold;
+    border: 1.6px solid white;
+    background-color: #0e2a38;
+    border-radius: 8px;
+    transition: all 0.5s ease-in-out;
+}
+
+.icon {
+    width: 48px;
+    border-radius: 8px;
+}
+
+.icon-label {
+    color: white;
+    padding-top: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#links-div {
+    transition: opacity 1s ease-out;
+    opacity: 0;
+}
+.draggable-div {
+    top: 25%;
+    position: absolute;
+    background-color: #060e16;
+    color: white;
+    text-align: center;
+    border: 1.6px solid #FFFFFF;
+    border-radius: 8px;
+    opacity: 0;
+}
+
+.draggable-div-header {
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1.6px solid white;
+    background-color: #0e2a38;
+    cursor: grab;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.draggable-div-body {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.header-title {
+    font-size: 24px;
+}
+
+.header-div {
+    padding: 10px 16px;
+}
+
+.spacer {
+    flex-grow: 2;
+}
+
+.close {
+    font-size: 40px;
+}
+
+.close:hover {
+    opacity: 1;
+}
