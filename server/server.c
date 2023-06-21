@@ -72,15 +72,15 @@ void resp_404(int fd)
     if (file_data == NULL)
     {
         // did not find the 404 file, create makeshift 404 html.
-        char *backup_404 = "<html><h1>404 not found</h1></html>";
+        char *backup_404 = "<html><h1>404 Not Found</h1></html>";
         // server the makeshift 404 html.
-        send_response(fd, "HTTP/1.1 404 not found", "text/html", backup_404, strlen(backup_404));
+        send_response(fd, "HTTP/1.1 404 Not Found", "text/html", backup_404, strlen(backup_404));
         return; // exit the function.
     }
     // get the content type for our response using a utils function.
     char *content_type = get_content_type(file_path);
     // server the file with the correct headers.
-    send_response(fd, "HTTP/1.1 404 not found", content_type, file_data->data, file_data->size);
+    send_response(fd, "HTTP/1.1 404 Not Found", content_type, file_data->data, file_data->size);
     // deallocate the memory allocated by file_load.
     file_free(file_data);
 }
