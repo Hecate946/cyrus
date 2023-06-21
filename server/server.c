@@ -31,10 +31,10 @@ int send_response(int fd, char *header, char *content_type, void *body, int cont
     char *time_str = asctime(local_time);
 
     char *fmt_string = "%s\r\n" // header
-                        "date: %s\r" // formatted date string
-                        "connection: close\r\n" // close the connection after response
-                        "content-type: %s\r\n" // type
-                        "content-length: %d\r\n\r\n"; // length
+                        "Date: %s\r" // formatted date string
+                        "Connection: close\r\n" // close the connection after response
+                        "Content-Type: %s\r\n" // type
+                        "Content-Length: %d\r\n\r\n"; // length
 
     // load the formatted response string into the response variable.
     sprintf(response, fmt_string, header, time_str, content_type, content_length);
@@ -74,13 +74,13 @@ void resp_404(int fd)
         // did not find the 404 file, create makeshift 404 html.
         char *backup_404 = "<html><h1>404 not found</h1></html>";
         // server the makeshift 404 html.
-        send_response(fd, "http/1.1 404 not found", "text/html", backup_404, strlen(backup_404));
+        send_response(fd, "HTTP/1.1 404 not found", "text/html", backup_404, strlen(backup_404));
         return; // exit the function.
     }
     // get the content type for our response using a utils function.
     char *content_type = get_content_type(file_path);
     // server the file with the correct headers.
-    send_response(fd, "http/1.1 404 not found", content_type, file_data->data, file_data->size);
+    send_response(fd, "HTTP/1.1 404 not found", content_type, file_data->data, file_data->size);
     // deallocate the memory allocated by file_load.
     file_free(file_data);
 }
@@ -93,7 +93,7 @@ void get_file(int fd, struct cache *cache, char *request_path)
     struct cache_entry *entry = cache_get(cache, request_path);
     if (entry)
     { // we have the file in the cache, serve it.
-        send_response(fd, "http/1.1 200 ok", entry->content_type, entry->content, entry->content_length);
+        send_response(fd, "HTTP/1.1 200 OK", entry->content_type, entry->content, entry->content_length);
         return; // exit function.
     }
 
@@ -118,7 +118,7 @@ void get_file(int fd, struct cache *cache, char *request_path)
     // load the file data into the cache; use request_path as the key.
     cache_put(cache, request_path, content_type, file_data->data, file_data->size);
     // we now have all the file data needed, send the http response.
-    send_response(fd, "http/1.1 200 ok", content_type, file_data->data, file_data->size);
+    send_response(fd, "HTTP/1.1 200 OK", content_type, file_data->data, file_data->size);
     // deallocate the file path buffer.
     free(file_path);
     // deallocate the file data allocated in file_load.
