@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/types.h>
+#include <sys/utsname.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
@@ -14,6 +15,7 @@
 #include "net.h"
 #include "utils.h"
 #include "cache.h"
+#include "usage.h"
 
 #define PORT "8080" // the port to host the webserver
 #define ROOT "/index.html" // file to server on '/'
@@ -69,14 +71,42 @@ user OS info/IP address.
 */
 void api_get_stats(int fd)
 {
-    // char hostname[256];
-    // gethostname(hostname, 255);
+    char hostname[256];
+    gethostname(hostname, 255);
 
-    // char* json = "{hostname: %s, uptime: %s}";
+    struct utsname uts;
+    uname(&uts);
 
-    // char buffer[256];
-    // snprintf(buffer, 256, json, hostname);
-    // send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
+
+    int cores = sysconf(_SC_NPROCESSORS_ONLN);
+
+
+    int total_mem = get_total_physical_memory();
+    int used_mem = get_current_physical_memory();
+    int proc_mem = get_proc_physical_memory();
+    int total_vm = get_total_virtual_memory();
+    int used_vm = get_current_virtual_memory();
+    int proc_vm = get_proc_virtual_memory();
+    
+
+
+    char* jsonstr = "{hostname: %s, "
+                    "system: %s, "
+                    "hardware: %s, "
+                    "os_release: %s, "
+                    "os_version %s, "
+                    "total_memory: %d, "
+                    "used_memory: %d, "
+                    "proc_memory: %d, "
+                    "total_vm: %d, "
+                    "used_vm: %d, "
+                    "proc_vm: %d, "
+                    "cpu_cores: %d}";
+    char buffer[4096]; // TODO: malloc this
+    snprintf(
+        buffer, sizeof(buffer), jsonstr, uts.nodename, uts.sysname, uts.machine, uts.release, uts.version,
+        total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, cores);
+    send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
 }
 
 // internal api endpoint to get uptime.

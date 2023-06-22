@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall
 
-OBJS=server.o net.o utils.o cache.o hashtable.o llist.o
+OBJS=server.o net.o utils.o cache.o hashtable.o llist.o usage.o
 
 all: webserver
 
@@ -19,6 +19,8 @@ cache.o: cache.c cache.h
 hashtable.o: hashtable.c hashtable.h
 
 llist.o: llist.c llist.h
+
+usage.o: usage.c usage.h
 
 clean:
 	rm -f $(OBJS)
