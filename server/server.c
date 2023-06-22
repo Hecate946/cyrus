@@ -19,6 +19,9 @@
 #define ROOT "/index.html" // file to server on '/'
 #define FRONTEND_FILES "../frontend" // frontend files
 
+// global variable for uptime
+time_t START_UNIX_TIME;
+
 int send_response(int fd, char *header, char *content_type, void *body, int content_length)
 {
     const int max_response_size = 262144; // 256k
@@ -66,7 +69,42 @@ user OS info/IP address.
 */
 void api_get_stats(int fd)
 {
-    // TODO: json database?
+    // char hostname[256];
+    // gethostname(hostname, 255);
+
+    // char* json = "{hostname: %s, uptime: %s}";
+
+    // char buffer[256];
+    // snprintf(buffer, 256, json, hostname);
+    // send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
+}
+
+// internal api endpoint to get uptime.
+// implement separately from get_stats
+// update uptime dynamically on the frontend.
+void api_get_uptime(int fd) {
+    // get current unix time
+    time_t unix_time;
+    time(&unix_time);
+    // get the difference between current time and start time.
+    double diff = difftime(unix_time, START_UNIX_TIME);
+    // get our uptime string from utils helper function.
+    char *uptime = get_uptime_string((int)diff);
+    // create json format string.
+    char *json = "{uptime: %s}";
+    // calculate size to malloc from json string and uptime string.
+    // note the formatting in the json string gives a few extra bytes.
+    size_t to_malloc = strlen(uptime) + strlen(json);
+    // dynamically allocate the buffer
+    char *buffer = malloc(to_malloc);
+    // store the uptime json string in the buffer.
+    snprintf(buffer, to_malloc, json, uptime);
+    // send out json response.
+    send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
+    // free uptime string allocated in utils.c
+    free(uptime);
+    // free the buffer
+    free(buffer);
 }
 // send a 404 response
 void resp_404(int fd)
@@ -178,6 +216,9 @@ void handle_http_request(int fd, struct cache *cache)
         else if (strcmp(request_path, "/api/get_stats") == 0) {
             api_get_stats(fd);
         } 
+        else if (strcmp(request_path, "/api/get_uptime") == 0) {
+            api_get_uptime(fd);
+        } 
         else
         {   // serve a file to the client.
             get_file(fd, cache, request_path);
@@ -199,14 +240,15 @@ void handle_http_request(int fd, struct cache *cache)
 // run the webserver
 int main(void)
 {
-    int newfd; // listen on sock_fd, new connection on newfd
-    struct sockaddr_storage their_addr; // connector's address information
-    char s[INET6_ADDRSTRLEN]; // max address length
+    time(&START_UNIX_TIME); // update uptime variable.
+    int newfd; // listen on sock_fd, new connection on newfd.
+    struct sockaddr_storage their_addr; // connector's address information.
+    char s[INET6_ADDRSTRLEN]; // max address length.
 
     // create the cache. cache a max of 20 unique request paths.
     struct cache *cache = cache_create(20, 0);
 
-    // get a listening socket
+    // get a listening socket.
     int listenfd = get_listener_socket(PORT);
     // bad response from socket.
     if (listenfd < 0)
@@ -237,7 +279,7 @@ int main(void)
             continue;
         }
 
-        // print out a message that we got the connection
+        // print out a message that we got the connection.
         inet_ntop(their_addr.ss_family,
                     get_in_addr((struct sockaddr *)&their_addr),
                     s, sizeof(s));
@@ -251,6 +293,6 @@ int main(void)
         // close the connection.
         close(newfd);
     }
-    // unreachable code
+    // unreachable code.
     return 0;
 }

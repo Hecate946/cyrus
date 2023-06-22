@@ -122,3 +122,50 @@ char *find_body(char *request) {
     return NULL;
     // TODO: handle invalid post request.
 }
+int strlen_int(int value)
+{
+    int l = 1;
+    while(value > 9) { l++; value /= 10; }
+    return l;
+}
+
+char *get_uptime_string(int n) {
+    // function convert second into day 
+// hours, minutes and seconds
+    int days = n / (24 * 3600);
+    n = n % (24 * 3600);
+    int hours = n / 3600;
+  
+    n %= 3600;
+    int minutes = n / 60 ;
+
+    n %= 60;
+    int seconds = n;
+
+    char daystring[8] = "day";
+    char hourstring[8] = "hour";
+    char minutestring[8] = "minute";
+    char secondstring[8] = "second";
+
+    if (days != 1) {strcat(daystring, "s");}
+    if (hours != 1) {strcat(hourstring, "s");}
+    if (minutes != 1) {strcat(minutestring, "s");}
+    if (seconds != 1) {strcat(secondstring, "s");}
+    
+    char *string = "%d %s, %d %s, %d %s, %d %s";
+    size_t to_malloc = (
+        strlen(string) +
+        strlen(daystring) +
+        strlen(hourstring) +
+        strlen(minutestring) +
+        strlen(secondstring) +
+        strlen_int(days) +
+        strlen_int(hours) +
+        strlen_int(minutes) +
+        strlen_int(seconds)
+    );
+    char *result = malloc(to_malloc);
+    snprintf(result, to_malloc, string, days, daystring, hours, hourstring, minutes, minutestring, seconds, secondstring);
+    return result;
+}
+
