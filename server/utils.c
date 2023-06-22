@@ -139,6 +139,7 @@ char *get_content_type(char *filename)
     // return the default type if the extension was not found.
     return DEFAULT_CONTENT_TYPE;
 }
+
 // returns the body of a post request given a valid post form.
 char *find_body(char *request)
 {
@@ -156,6 +157,7 @@ char *find_body(char *request)
     return NULL;
     // TODO: handle invalid post request.
 }
+// helper function to calculate the length of an int.
 int strlen_int(int value)
 {
     int l = 1;
@@ -219,7 +221,7 @@ char *get_uptime_string(int n)
     char *result = malloc(to_malloc);
     // load in the whole string.
     snprintf(result, to_malloc, string, days, daystring,
-    hours, hourstring, minutes, minutestring, seconds,secondstring);
+             hours, hourstring, minutes, minutestring, seconds, secondstring);
     // return the result.
     return result;
 }
