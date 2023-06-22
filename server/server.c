@@ -16,6 +16,7 @@
 #include "cache.h"
 
 #define PORT "8080" // the port to host the webserver
+#define ROOT "/index.html" // file to server on '/'
 #define FRONTEND_FILES "../frontend" // frontend files
 
 int send_response(int fd, char *header, char *content_type, void *body, int content_length)
@@ -56,6 +57,17 @@ int send_response(int fd, char *header, char *content_type, void *body, int cont
 }
 
 
+// return stats page json.
+/*
+total website views
+user website views w page breakdown
+host OS info
+user OS info/IP address.
+*/
+void api_get_stats(int fd)
+{
+    // TODO: json database?
+}
 // send a 404 response
 void resp_404(int fd)
 {
@@ -89,6 +101,14 @@ void resp_404(int fd)
 // read and return a file from disk or cache
 void get_file(int fd, struct cache *cache, char *request_path)
 {
+    // get the file extension from the filename.
+    char *ext = strrchr(request_path, '.');
+    // if no extension, try adding '.html'
+    // this maps /about to /about.html etc...
+    if (ext == NULL) {
+        // add .html to the end of the request path.
+        strcat(request_path, ".html");
+    }
     // attempt to load the file from the cache using the request_path.
     struct cache_entry *entry = cache_get(cache, request_path);
     if (entry)
@@ -108,8 +128,8 @@ void get_file(int fd, struct cache *cache, char *request_path)
     struct file_data *file_data = file_load(file_path);
     // if there is no file data.
     if (file_data == NULL)
-    { // invalid file provided, return error.
-        resp_404(fd); // TODO. return error code 400 instead of 404.
+    { // file not found!
+        resp_404(fd); // return 404 code.
         return; // exit function.
     }
 
@@ -147,23 +167,26 @@ void handle_http_request(int fd, struct cache *cache)
     char *request_path = malloc(strlen(request) + 1);
     // update the request type and request path with data from the request.
     sscanf(request, "%s %s", request_type, request_path);
-    // handle the 'get' request type.
+    // handle the 'GET' request type.
     if (strcmp(request_type, "GET") == 0)
     {
-        // handle all custom paths.
-        if (strcmp(request_path, "/get_email") == 0)
-        {
-            // TODO: send emails?
+        // point root path to our root html file.
+        if (strcmp(request_path, "/") == 0)
+        {   // serve the root file.
+            get_file(fd, cache, ROOT);
         }
+        else if (strcmp(request_path, "/api/get_stats") == 0) {
+            api_get_stats(fd);
+        } 
         else
-        {   // server a file to the client.
+        {   // serve a file to the client.
             get_file(fd, cache, request_path);
         }
     }
-    // handle the 'post' request type.
+    // handle the 'POST' request type.
     else if (strcmp(request_type, "POST") == 0)
     {
-        // TODO: post requests!
+        find_body(request);
     }
     else
     {

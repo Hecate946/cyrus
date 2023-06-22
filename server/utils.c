@@ -108,3 +108,17 @@ char *get_content_type(char *filename)
     // return the default type if the extension was not found.
     return DEFAULT_CONTENT_TYPE;
 }
+// returns the body of a post request given a valid post form.
+char *find_body(char *request) {
+    // iterate through the whole request.
+    // ensure header + 4 exists so we return invalid accesses.
+    while (*request++) {
+        // we know the body starts after '\r\n' repeats twice.
+        if (strncmp(request, "\r\n\r\n", 4) == 0) {
+            // return just past the end of the \r\n\r\n. 
+            return request + 4;
+        }
+    }
+    return NULL;
+    // TODO: handle invalid post request.
+}
