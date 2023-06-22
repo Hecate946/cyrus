@@ -12,6 +12,7 @@
 #include <time.h>
 #include <sys/file.h>
 #include <fcntl.h>
+#include <pthread.h>
 #include "net.h"
 #include "utils.h"
 #include "cache.h"
@@ -71,6 +72,8 @@ user OS info/IP address.
 */
 void api_get_stats(int fd)
 {
+
+    double cpu_usage_percent = get_cpu_usage();
     // get os system info from utsname.h
     struct utsname uts;
     uname(&uts);
@@ -105,19 +108,20 @@ void api_get_stats(int fd)
                     "total_vm: %d, "
                     "used_vm: %d, "
                     "proc_vm: %d, "
-                    "cpu_cores: %d}";
+                    "cpu_cores: %d, "
+                    "cpu_usage_percent: %f}";
     // calculate size to malloc from json string and uptime string.
     // note the formatting in the json string gives a few extra bytes.
     size_t to_malloc = strlen(uts.nodename) + strlen(uts.sysname) + strlen(uts.machine) +
     strlen(uts.release) + strlen(uts.version) + strlen(uptime) + strlen_int(total_mem) +
     strlen_int(used_mem) + strlen_int(proc_mem) + strlen_int(total_vm) + strlen_int(used_vm) +
-    strlen_int(proc_vm) + strlen_int(cores) + strlen(jsonstr);
+    strlen_int(proc_vm) + strlen_int(cores) + strlen(jsonstr) + 16; // for double.
     // dynamically allocate the buffer.
     char *buffer = malloc(to_malloc);
     // store all json data in the buffer.
     snprintf(
         buffer, to_malloc, jsonstr, uts.nodename, uts.sysname, uts.machine, uts.release, uts.version,
-        uptime, total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, cores);
+        uptime, total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, cores, cpu_usage_percent);
     // send out json response.
     send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
     // free uptime string allocated in utils.c.
@@ -257,6 +261,10 @@ void handle_http_request(int fd, struct cache *cache)
 // run the webserver
 int main(void)
 {
+    // spawn thread to track CPU usage.
+    pthread_t tid;
+    pthread_create(&tid, NULL, cpu_tracker, NULL);
+
     time(&START_UNIX_TIME); // update uptime variable.
     int newfd; // listen on sock_fd, new connection on newfd.
     struct sockaddr_storage their_addr; // connector's address information.

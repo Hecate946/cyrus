@@ -86,29 +86,23 @@ int get_proc_physical_memory(){ //note: this value is in kb!
 }
 
 
-static long long lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
-
-void init_cpu_usage(){
-    FILE* file = fopen("/proc/stat", "r");
-    fscanf(file, "cpu %lld %lld %lld %lld", &lastTotalUser, &lastTotalUserLow,
-        &lastTotalSys, &lastTotalIdle);
-    fclose(file);
+static long long last_idle, current_idle;
+void *cpu_tracker()
+{
+    FILE* file;
+    for(;;)
+    {
+        last_idle = current_idle;
+        file = fopen("/proc/stat", "r");
+        fscanf(file, "cpu %*s %*s %*s %lld", &current_idle);
+        fclose(file);
+        sleep(1);
+    }
 }
 
 double get_cpu_usage(){
-    FILE* file;
-    long long totalUser, totalUserLow, totalSys, totalIdle, total;
-
-    file = fopen("/proc/stat", "r");
-    fscanf(file, "cpu %lld %lld %lld %lld", &totalUser, &totalUserLow,
-        &totalSys, &totalIdle);
-    fclose(file);
-
-    printf("lti: %lld\n", lastTotalIdle);
-    printf("ti: %lld\n", totalIdle);
-
-    int cores = sysconf(_SC_NPROCESSORS_ONLN);
-    return (lastTotalIdle - totalIdle / cores); // num cores.
+    double diff = (double)(current_idle - last_idle);
+    long cores = sysconf(_SC_NPROCESSORS_ONLN);
+    double usage_percent = 100.0 - (diff/cores);
+    return usage_percent;
 }
-
-
