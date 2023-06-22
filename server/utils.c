@@ -16,14 +16,16 @@ struct file_data *file_load(char *filename)
     int bytes_read, bytes_remaining, total_bytes = 0;
 
     // get the file size
-    if (stat(filename, &buf) == -1) {
+    if (stat(filename, &buf) == -1)
+    {
         return NULL;
     }
 
     // open the file for reading.
     FILE *fp = fopen(filename, "rb");
     // invalid file.
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
         // exit function.
         return NULL;
     }
@@ -33,15 +35,18 @@ struct file_data *file_load(char *filename)
     // dynamically allocate the bytes.
     p = buffer = malloc(bytes_remaining);
     // no more memory :(
-    if (buffer == NULL) {
+    if (buffer == NULL)
+    {
         // exit function.
         return NULL;
     }
 
     // read in the entire file
-    while (bytes_read = fread(p, 1, bytes_remaining, fp), bytes_read != 0 && bytes_remaining > 0) {
+    while (bytes_read = fread(p, 1, bytes_remaining, fp), bytes_read != 0 && bytes_remaining > 0)
+    {
         // error!
-        if (bytes_read == -1) {
+        if (bytes_read == -1)
+        {
             // free the memory.
             free(buffer);
             // exit the function.
@@ -57,7 +62,8 @@ struct file_data *file_load(char *filename)
     // allocate the file data struct
     struct file_data *filedata = malloc(sizeof *filedata);
     // no more memory :(
-    if (filedata == NULL) {
+    if (filedata == NULL)
+    {
         free(buffer);
         return NULL;
     }
@@ -85,37 +91,65 @@ char *get_content_type(char *filename)
 
     // we don't know what the ext is
     if (ext == NULL)
-    {   // return the default type.
+    { // return the default type.
         return DEFAULT_CONTENT_TYPE;
     }
-    
+
     // move the pointer ahead by one to remove the '.'
     ext++;
 
     // make the string lowercase.
-    for(int i = 0; ext[i]; i++){
+    for (int i = 0; ext[i]; i++)
+    {
         ext[i] = tolower(ext[i]);
     }
     // return the correct content type based on the file extension.
-    if (strcmp(ext, "html") == 0 || strcmp(ext, "htm") == 0) { return "text/html"; }
-    if (strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0) { return "image/jpg"; }
-    if (strcmp(ext, "css") == 0) { return "text/css"; }
-    if (strcmp(ext, "js") == 0) { return "application/javascript"; }
-    if (strcmp(ext, "json") == 0) { return "application/json"; }
-    if (strcmp(ext, "txt") == 0) { return "text/plain"; }
-    if (strcmp(ext, "gif") == 0) { return "image/gif"; }
-    if (strcmp(ext, "png") == 0) { return "image/png"; }
+    if (strcmp(ext, "html") == 0 || strcmp(ext, "htm") == 0)
+    {
+        return "text/html";
+    }
+    if (strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0)
+    {
+        return "image/jpg";
+    }
+    if (strcmp(ext, "css") == 0)
+    {
+        return "text/css";
+    }
+    if (strcmp(ext, "js") == 0)
+    {
+        return "application/javascript";
+    }
+    if (strcmp(ext, "json") == 0)
+    {
+        return "application/json";
+    }
+    if (strcmp(ext, "txt") == 0)
+    {
+        return "text/plain";
+    }
+    if (strcmp(ext, "gif") == 0)
+    {
+        return "image/gif";
+    }
+    if (strcmp(ext, "png") == 0)
+    {
+        return "image/png";
+    }
     // return the default type if the extension was not found.
     return DEFAULT_CONTENT_TYPE;
 }
 // returns the body of a post request given a valid post form.
-char *find_body(char *request) {
+char *find_body(char *request)
+{
     // iterate through the whole request.
     // ensure header + 4 exists so we return invalid accesses.
-    while (*request++) {
+    while (*request++)
+    {
         // we know the body starts after '\r\n' repeats twice.
-        if (strncmp(request, "\r\n\r\n", 4) == 0) {
-            // return just past the end of the \r\n\r\n. 
+        if (strncmp(request, "\r\n\r\n", 4) == 0)
+        {
+            // return just past the end of the \r\n\r\n.
             return request + 4;
         }
     }
@@ -125,47 +159,67 @@ char *find_body(char *request) {
 int strlen_int(int value)
 {
     int l = 1;
-    while(value > 9) { l++; value /= 10; }
+    while (value > 9)
+    {
+        l++;
+        value /= 10;
+    }
     return l;
 }
 
-char *get_uptime_string(int n) {
-    // function convert second into day 
-// hours, minutes and seconds
+// converts second into days, hours, minutes and seconds
+char *get_uptime_string(int n)
+{
+    // do some math with remainders for conversion.
     int days = n / (24 * 3600);
     n = n % (24 * 3600);
     int hours = n / 3600;
-  
+
     n %= 3600;
-    int minutes = n / 60 ;
+    int minutes = n / 60;
 
     n %= 60;
     int seconds = n;
 
+    // define unpluralized strings.
     char daystring[8] = "day";
     char hourstring[8] = "hour";
     char minutestring[8] = "minute";
     char secondstring[8] = "second";
-
-    if (days != 1) {strcat(daystring, "s");}
-    if (hours != 1) {strcat(hourstring, "s");}
-    if (minutes != 1) {strcat(minutestring, "s");}
-    if (seconds != 1) {strcat(secondstring, "s");}
-    
+    // pluralize the strings.
+    if (days != 1)
+    {
+        strcat(daystring, "s");
+    }
+    if (hours != 1)
+    {
+        strcat(hourstring, "s");
+    }
+    if (minutes != 1)
+    {
+        strcat(minutestring, "s");
+    }
+    if (seconds != 1)
+    {
+        strcat(secondstring, "s");
+    }
+    // define format string.
     char *string = "%d %s, %d %s, %d %s, %d %s";
-    size_t to_malloc = (
-        strlen(string) +
-        strlen(daystring) +
-        strlen(hourstring) +
-        strlen(minutestring) +
-        strlen(secondstring) +
-        strlen_int(days) +
-        strlen_int(hours) +
-        strlen_int(minutes) +
-        strlen_int(seconds)
-    );
+    // calculate size to malloc.
+    size_t to_malloc = (strlen(string) +
+                        strlen(daystring) +
+                        strlen(hourstring) +
+                        strlen(minutestring) +
+                        strlen(secondstring) +
+                        strlen_int(days) +
+                        strlen_int(hours) +
+                        strlen_int(minutes) +
+                        strlen_int(seconds));
+    // dynamically allocate our result string
     char *result = malloc(to_malloc);
-    snprintf(result, to_malloc, string, days, daystring, hours, hourstring, minutes, minutestring, seconds, secondstring);
+    // load in the whole string.
+    snprintf(result, to_malloc, string, days, daystring,
+    hours, hourstring, minutes, minutestring, seconds,secondstring);
+    // return the result.
     return result;
 }
-
