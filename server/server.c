@@ -74,6 +74,7 @@ void api_get_stats(int fd)
 {
 
     double cpu_usage_percent = get_cpu_usage();
+    int pid = getpid();
     // get os system info from utsname.h
     struct utsname uts;
     uname(&uts);
@@ -108,6 +109,7 @@ void api_get_stats(int fd)
                     "total_vm: %d, "
                     "used_vm: %d, "
                     "proc_vm: %d, "
+                    "proc_pid: %d, "
                     "cpu_cores: %d, "
                     "cpu_usage_percent: %f}";
     // calculate size to malloc from json string and uptime string.
@@ -115,13 +117,13 @@ void api_get_stats(int fd)
     size_t to_malloc = strlen(uts.nodename) + strlen(uts.sysname) + strlen(uts.machine) +
     strlen(uts.release) + strlen(uts.version) + strlen(uptime) + strlen_int(total_mem) +
     strlen_int(used_mem) + strlen_int(proc_mem) + strlen_int(total_vm) + strlen_int(used_vm) +
-    strlen_int(proc_vm) + strlen_int(cores) + strlen(jsonstr) + 16; // for double.
+    strlen_int(proc_vm) + strlen_int(cores) + strlen_int(pid) + strlen(jsonstr) + 16; // for double.
     // dynamically allocate the buffer.
     char *buffer = malloc(to_malloc);
     // store all json data in the buffer.
     snprintf(
         buffer, to_malloc, jsonstr, uts.nodename, uts.sysname, uts.machine, uts.release, uts.version,
-        uptime, total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, cores, cpu_usage_percent);
+        uptime, total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, pid, cores, cpu_usage_percent);
     // send out json response.
     send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
     // free uptime string allocated in utils.c.

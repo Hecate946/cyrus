@@ -87,6 +87,7 @@ int get_proc_physical_memory(){ //note: this value is in kb!
 
 
 static long long last_idle, current_idle;
+// static long long last_proc_usage, current_proc_usage;
 void *cpu_tracker()
 {
     FILE* file;
@@ -96,6 +97,14 @@ void *cpu_tracker()
         file = fopen("/proc/stat", "r");
         fscanf(file, "cpu %*s %*s %*s %lld", &current_idle);
         fclose(file);
+
+        // last_proc_usage = current_proc_usage;
+        // file = fopen("/proc/self/stat", "r");
+        // long long user_jiffies, kernel_jiffies;
+        // printf("\n\n%lld\n\n", user_jiffies + kernel_jiffies);
+        // fscanf(file, "%*s %*s %*s %*s %*s %*s %*s %*s %*s %*s %*s %*s %lld %lld", &user_jiffies, &kernel_jiffies);
+        // fclose(file);
+        // current_proc_usage = user_jiffies + kernel_jiffies;
         sleep(1);
     }
 }
@@ -106,3 +115,10 @@ double get_cpu_usage(){
     double usage_percent = 100.0 - (diff/cores);
     return usage_percent;
 }
+
+// double get_proc_cpu_usage(){
+//     double diff = (double)(last_proc_usage - current_proc_usage);
+//     long cores = sysconf(_SC_NPROCESSORS_ONLN);
+//     double usage_percent = 100.0 - (diff/cores);
+//     return usage_percent;
+// }
