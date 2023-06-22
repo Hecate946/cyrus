@@ -71,16 +71,13 @@ user OS info/IP address.
 */
 void api_get_stats(int fd)
 {
-    char hostname[256];
-    gethostname(hostname, 255);
-
+    // get os system info from utsname.h
     struct utsname uts;
     uname(&uts);
 
-
+    // get the number of cpu cores we have.
     int cores = sysconf(_SC_NPROCESSORS_ONLN);
-
-
+    // get physical and virtual memory usage stats (usage.c).
     int total_mem = get_total_physical_memory();
     int used_mem = get_current_physical_memory();
     int proc_mem = get_proc_physical_memory();
@@ -88,31 +85,6 @@ void api_get_stats(int fd)
     int used_vm = get_current_virtual_memory();
     int proc_vm = get_proc_virtual_memory();
     
-
-
-    char* jsonstr = "{hostname: %s, "
-                    "system: %s, "
-                    "hardware: %s, "
-                    "os_release: %s, "
-                    "os_version %s, "
-                    "total_memory: %d, "
-                    "used_memory: %d, "
-                    "proc_memory: %d, "
-                    "total_vm: %d, "
-                    "used_vm: %d, "
-                    "proc_vm: %d, "
-                    "cpu_cores: %d}";
-    char buffer[4096]; // TODO: malloc this
-    snprintf(
-        buffer, sizeof(buffer), jsonstr, uts.nodename, uts.sysname, uts.machine, uts.release, uts.version,
-        total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, cores);
-    send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
-}
-
-// internal api endpoint to get uptime.
-// implement separately from get_stats
-// update uptime dynamically on the frontend.
-void api_get_uptime(int fd) {
     // get current unix time
     time_t unix_time;
     time(&unix_time);
@@ -121,21 +93,39 @@ void api_get_uptime(int fd) {
     // get our uptime string from utils helper function.
     char *uptime = get_uptime_string((int)diff);
     // create json format string.
-    char *json = "{uptime: %s}";
+    char* jsonstr = "{hostname: %s, "
+                    "system: %s, "
+                    "hardware: %s, "
+                    "os_release: %s, "
+                    "os_version %s, "
+                    "uptime: %s, "
+                    "total_memory: %d, "
+                    "used_memory: %d, "
+                    "proc_memory: %d, "
+                    "total_vm: %d, "
+                    "used_vm: %d, "
+                    "proc_vm: %d, "
+                    "cpu_cores: %d}";
     // calculate size to malloc from json string and uptime string.
     // note the formatting in the json string gives a few extra bytes.
-    size_t to_malloc = strlen(uptime) + strlen(json);
-    // dynamically allocate the buffer
+    size_t to_malloc = strlen(uts.nodename) + strlen(uts.sysname) + strlen(uts.machine) +
+    strlen(uts.release) + strlen(uts.version) + strlen(uptime) + strlen_int(total_mem) +
+    strlen_int(used_mem) + strlen_int(proc_mem) + strlen_int(total_vm) + strlen_int(used_vm) +
+    strlen_int(proc_vm) + strlen_int(cores) + strlen(jsonstr);
+    // dynamically allocate the buffer.
     char *buffer = malloc(to_malloc);
-    // store the uptime json string in the buffer.
-    snprintf(buffer, to_malloc, json, uptime);
+    // store all json data in the buffer.
+    snprintf(
+        buffer, to_malloc, jsonstr, uts.nodename, uts.sysname, uts.machine, uts.release, uts.version,
+        uptime, total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, cores);
     // send out json response.
     send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
-    // free uptime string allocated in utils.c
+    // free uptime string allocated in utils.c.
     free(uptime);
-    // free the buffer
+    // free the buffer.
     free(buffer);
 }
+
 // send a 404 response
 void resp_404(int fd)
 {
@@ -245,9 +235,6 @@ void handle_http_request(int fd, struct cache *cache)
         }
         else if (strcmp(request_path, "/api/get_stats") == 0) {
             api_get_stats(fd);
-        } 
-        else if (strcmp(request_path, "/api/get_uptime") == 0) {
-            api_get_uptime(fd);
         } 
         else
         {   // serve a file to the client.
