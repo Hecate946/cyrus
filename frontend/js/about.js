@@ -17,5 +17,5 @@ var character = 0;
             clearTimeout(timeOut);
         }
         
-    }, 30);
+    }, 7);
 }());
