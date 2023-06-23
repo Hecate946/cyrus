@@ -1,25 +1,29 @@
 :root {
     --teal-blue: #0e2a38;
     --dark-blue: #060e16;
+    --yellow: #8d8100;
     --white: #FFFFFF;
-    --black: #000000;
-    
+    --black: #000000;   
 }
+
 
 a,
 a:visited,
 a:hover,
 a:active {
     text-decoration: none;
-    color: inherit;
+    color: var(--yellow);
 }
 
 body {
     font-family: "Roboto Mono", monospace;
+    font-size: 20px;
+    padding: 5px;
+
     background-color: var(--dark-blue);
-    color: var(--white);
+    color: var(--yellow);
 }
 
 .typewriter {
-    opacity: 0;
+    display: none;
 }

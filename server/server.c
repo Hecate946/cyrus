@@ -271,7 +271,6 @@ int main(void)
     time(&START_UNIX_TIME); // update uptime variable.
     int newfd; // listen on sock_fd, new connection on newfd.
     struct sockaddr_storage their_addr; // connector's address information.
-    char s[INET6_ADDRSTRLEN]; // max address length.
 
     // create the cache. cache a max of MAX_CACHE_SIZE unique request paths.
     struct cache *cache = cache_create(MAX_CACHE_SIZE, 0);
@@ -290,8 +289,7 @@ int main(void)
     // this is the main loop that accepts incoming connections and
     // responds to the request. the main parent process
     // then goes back to waiting for new connections.
-
-
+    
     for(;;)
     {
         socklen_t sin_size = sizeof their_addr;
@@ -306,13 +304,6 @@ int main(void)
             // continue to the next connection.
             continue;
         }
-
-        // print out a message that we got the connection.
-        inet_ntop(their_addr.ss_family,
-                    get_in_addr((struct sockaddr *)&their_addr),
-                    s, sizeof(s));
-        printf("[server] connection from: %s\n", s);
-
 
         // newfd is a new socket descriptor for the new connection.
         // listenfd is still listening for new connections.

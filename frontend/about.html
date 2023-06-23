@@ -6,17 +6,39 @@
 </head>
 
 <body>
+    <h1 class="typewriter">Hi!</h1>
     <p class="typewriter">
-        Hi! I started developing this webpage on June 15th, 2023 with three goals in mind:
-        to learn C, css, and javascript. As a result, the backend webserver is written from scratch in C,
-        and the frontend is written entirely with vanilla html/css and javascript.
-        This website is 100% open source, and you'll find that running it is remarkably easy if you have a linux machine ;)
+        I started developing this webpage on June 15th, 2023 with three goals in mind:
     </p>
-    <br>
+    <ol>
+        <li class="typewriter">1. To create a fast and unique website.</li>
+        <li class="typewriter">2. To use ZERO third party libraries.</li>
+        <li class="typewriter">3. To get better at C, JS, and CSS programming.</li>
+    </ol>
+    <h3 class="typewriter">Design:</h3>
     <p class="typewriter">
-        this is the second paragraph and the frontend is written entirely with vanilla html/css and javascript.
-
+        To make this website as fast as possible, the backend webserver is written entirely in C.
+        This webserver also uses a hashtable and linked list to store HTTP request data in a LRU cache for maximum speed and efficiency.
+        Additionally, the backend features an API found at the /api endpoint.
+        For transparancy, this API is fully available for any website user to visit and explore.
     </p>
+    <p class="typewriter">
+        The frontend is written with nothing more than simple HTML/CSS and vanilla JS.
+        Please note that my initial goal of using zero third party libraries is still upheld.
+        This website was created primarily for me to gain familiarity with a variety of programming concepts,
+        and I felt as though using third party libraries such as jQuery, Bootstrap, or even external C libraries,
+        would only cheat me out of learning the fundementals the right way.
+    </p>
+    <h3 class="typewriter">Source:</h3>
+    <p class="typewriter">
+        This website is 100% open source and can be found on github at:
+    </p>
+    <a href="https://github.com/Hecate946/cyrus" class="typewriter">https://github.com/Hecate946/cyrus</a>
+    <p class="typewriter">
+        An added bonus of not using any external libraries is making the webpage super easy for people to run themselves.
+        As long as you have the gcc compiler installed, running this website locally is as easy as cloning the github and running ./start
+    </p>
+    
     <script src='./js/about.js'></script>
 </body>
 
