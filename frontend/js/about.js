@@ -1,9 +1,9 @@
 // constant to set the wait between character prints.
-const CHARACTER_DELAY_MS = 25;
+const CHARACTER_DELAY_MS = 20;
 // array of punctuation marks we should delay on.
 const PUNCTUATION_TO_PAUSE = [",", ".", ";", ":", "!"];
 // length of time to pause on each punctuation mark
-const PUNCTUATION_PAUSE_MS = 250;
+const PUNCTUATION_PAUSE_MS = 200;
 
 // a typewriter is any html element that has the .typewriter class.
 // every typewriter will be printed out dynamically character by character.

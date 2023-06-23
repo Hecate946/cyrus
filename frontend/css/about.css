@@ -2,6 +2,7 @@
     --teal-blue: #0e2a38;
     --dark-blue: #060e16;
     --yellow: #8d8100;
+    --dark-yellow: #5a5300;
     --white: #FFFFFF;
     --black: #000000;   
 }
@@ -11,8 +12,7 @@ a,
 a:visited,
 a:hover,
 a:active {
-    text-decoration: none;
-    color: var(--yellow);
+    color: inherit;
 }
 
 body {
@@ -26,4 +26,8 @@ body {
 
 .typewriter {
     display: none;
+}
+
+a:hover {
+    color: var(--dark-yellow);
 }
