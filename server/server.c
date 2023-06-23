@@ -53,11 +53,11 @@ int send_response(int fd, char *header, char *content_type, void *body, int cont
     { // load the body into the http request using memcpy.
         memcpy(response + strlen(response), body, content_length);
     } // cannot use string functions because binary data may contain null bytes.
-    // send response
+    // send response.
     int rv = send(fd, response, resp_size, 0);
-    // bad response
+    // bad response.
     if (rv < 0)
-    { // output the error
+    { // output the error.
         perror("send");
     }
     return rv;
@@ -98,21 +98,22 @@ void api_get_stats(int fd)
     // get our uptime string from utils helper function.
     char *uptime = get_uptime_string((int)diff);
     // create json format string.
-    char* jsonstr = "{hostname: %s, "
-                    "system: %s, "
-                    "hardware: %s, "
-                    "os_release: %s, "
-                    "os_version %s, "
-                    "uptime: %s, "
-                    "total_memory: %d, "
-                    "used_memory: %d, "
-                    "proc_memory: %d, "
-                    "total_vm: %d, "
-                    "used_vm: %d, "
-                    "proc_vm: %d, "
-                    "proc_pid: %d, "
-                    "cpu_cores: %d, "
-                    "cpu_usage_percent: %f}";
+    char* jsonstr = // "{\"status\": \"ok\", "
+                    "{\"Host Computer\": \"%s\", "
+                    "\"Host OS\": \"%s\", "
+                    "\"Host Hardware\": \"%s\", "
+                    "\"Host CPU Cores\": \"%d\", "
+                    // "\"os_release\": \"%s\", "
+                    // "\"os_version\": \"%s\", "
+                    "\"Website PID\": \"%d\", "
+                    "\"Website Uptime\": \"%s\", "
+                    "\"Total physical memory\": \"%d\", "
+                    "\"Physical memory used\": \"%d\", "
+                    "\"Physical memory used by website\": \"%d\", "
+                    "\"Total virtual memory\": \"%d\", "
+                    "\"Virtual memory used\": \"%d\", "
+                    "\"Virtual memory used by website\": \"%d\", "
+                    "\"CPU usage percent\": \"%f\"}";
     // calculate size to malloc from json string and uptime string.
     // note the formatting in the json string gives a few extra bytes.
     size_t to_malloc = strlen(uts.nodename) + strlen(uts.sysname) + strlen(uts.machine) +
@@ -123,8 +124,8 @@ void api_get_stats(int fd)
     char *buffer = malloc(to_malloc);
     // store all json data in the buffer.
     snprintf(
-        buffer, to_malloc, jsonstr, uts.nodename, uts.sysname, uts.machine, uts.release, uts.version,
-        uptime, total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, pid, cores, cpu_usage_percent);
+        buffer, to_malloc, jsonstr, uts.nodename, uts.sysname, uts.machine, // uts.release, uts.version,
+        cores, pid, uptime, total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, cpu_usage_percent);
     // send out json response.
     send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
     // free uptime string allocated in utils.c.
@@ -289,7 +290,7 @@ int main(void)
     // this is the main loop that accepts incoming connections and
     // responds to the request. the main parent process
     // then goes back to waiting for new connections.
-    
+
     for(;;)
     {
         socklen_t sin_size = sizeof their_addr;
