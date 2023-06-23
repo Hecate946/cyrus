@@ -19,3 +19,7 @@ body {
     background-color: var(--dark-blue);
     color: var(--white);
 }
+
+.typewriter {
+    opacity: 0;
+}
