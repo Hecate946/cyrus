@@ -21,7 +21,7 @@
 #define WEBSERVER_PORT "8080" // the port to host the webserver.
 #define ROOT_HTML_FILE "/index.html" // file to server on '/'.
 #define FRONTEND_FILES "../frontend" // path to frontend files.
-#define MAX_CACHE_SIZE 20 // the max number of pages to cache.
+#define MAX_CACHE_SIZE 1 // the max number of pages to cache.
 
 // global variable for uptime
 time_t START_UNIX_TIME;

@@ -1,0 +1,21 @@
+:root {
+    --teal-blue: #0e2a38;
+    --dark-blue: #060e16;
+    --white: #FFFFFF;
+    --black: #000000;
+    
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: "Roboto Mono", monospace;
+    background-color: var(--dark-blue);
+    color: var(--white);
+}
