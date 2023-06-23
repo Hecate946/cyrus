@@ -99,21 +99,21 @@ void api_get_stats(int fd)
     char *uptime = get_uptime_string((int)diff);
     // create json format string.
     char* jsonstr = // "{\"status\": \"ok\", "
-                    "{\"Host Computer\": \"%s\", "
-                    "\"Host OS\": \"%s\", "
-                    "\"Host Hardware\": \"%s\", "
-                    "\"Host CPU Cores\": \"%d\", "
-                    // "\"os_release\": \"%s\", "
-                    // "\"os_version\": \"%s\", "
-                    "\"Website PID\": \"%d\", "
-                    "\"Website Uptime\": \"%s\", "
-                    "\"Total physical memory\": \"%d\", "
-                    "\"Physical memory used\": \"%d\", "
-                    "\"Physical memory used by website\": \"%d\", "
-                    "\"Total virtual memory\": \"%d\", "
-                    "\"Virtual memory used\": \"%d\", "
-                    "\"Virtual memory used by website\": \"%d\", "
-                    "\"CPU usage percent\": \"%f\"}";
+                    "{\"Host Computer\"          : \"%s\", "
+                    "\"Host OS\"                 : \"%s\", "
+                    "\"Host Hardware\"           : \"%s\", "
+                    "\"Host CPU Cores\"          : \"%d\", "
+                    // "\"os_release\"           : \"%s\", "
+                    // "\"os_version\"           : \"%s\", "
+                    "\"Website PID\"             : \"%d\", "
+                    "\"Website Uptime\"          : \"%s\", "
+                    "\"Total physical memory\"   : \"%d\", "
+                    "\"Physical memory used\"    : \"%d\", "
+                    "\"Website physical memory\" : \"%d\", "
+                    "\"Total virtual memory\"    : \"%d\", "
+                    "\"Virtual memory used\"     : \"%d\", "
+                    "\"Website virtual memory\"  : \"%d\", "
+                    "\"CPU usage percent\"       : \"%f\"}";
     // calculate size to malloc from json string and uptime string.
     // note the formatting in the json string gives a few extra bytes.
     size_t to_malloc = strlen(uts.nodename) + strlen(uts.sysname) + strlen(uts.machine) +
