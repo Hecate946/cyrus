@@ -18,9 +18,10 @@
 #include "cache.h"
 #include "usage.h"
 
-#define PORT "8080" // the port to host the webserver
-#define ROOT "/index.html" // file to server on '/'
-#define FRONTEND_FILES "../frontend" // frontend files
+#define WEBSERVER_PORT "8080" // the port to host the webserver.
+#define ROOT_HTML_FILE "/index.html" // file to server on '/'.
+#define FRONTEND_FILES "../frontend" // path to frontend files.
+#define MAX_CACHE_SIZE 20 // the max number of pages to cache.
 
 // global variable for uptime
 time_t START_UNIX_TIME;
@@ -237,7 +238,7 @@ void handle_http_request(int fd, struct cache *cache)
         // point root path to our root html file.
         if (strcmp(request_path, "/") == 0)
         {   // serve the root file.
-            get_file(fd, cache, ROOT);
+            get_file(fd, cache, ROOT_HTML_FILE);
         }
         else if (strcmp(request_path, "/api/get_stats") == 0) {
             api_get_stats(fd);
@@ -272,11 +273,11 @@ int main(void)
     struct sockaddr_storage their_addr; // connector's address information.
     char s[INET6_ADDRSTRLEN]; // max address length.
 
-    // create the cache. cache a max of 20 unique request paths.
-    struct cache *cache = cache_create(20, 0);
+    // create the cache. cache a max of MAX_CACHE_SIZE unique request paths.
+    struct cache *cache = cache_create(MAX_CACHE_SIZE, 0);
 
     // get a listening socket.
-    int listenfd = get_listener_socket(PORT);
+    int listenfd = get_listener_socket(WEBSERVER_PORT);
     // bad response from socket.
     if (listenfd < 0)
     {   // log the error and exit.
@@ -284,7 +285,7 @@ int main(void)
         exit(1);
     }
 
-    printf("[server] running on port: %s\n", PORT);
+    printf("[server] running on port: %s\n", WEBSERVER_PORT);
 
     // this is the main loop that accepts incoming connections and
     // responds to the request. the main parent process
