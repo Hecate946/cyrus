@@ -67,11 +67,6 @@ body {
     text-align: center;
 }
 
-#links-div {
-    transition: opacity 1s ease-out;
-    opacity: 0;
-}
-
 .draggable-div {
     top: 25%;
     position: absolute;
@@ -80,6 +75,7 @@ body {
     text-align: center;
     border: 1.6px solid #FFFFFF;
     border-radius: 8px;
+    transition: opacity 1s ease-out;
     opacity: 0;
 }
 
