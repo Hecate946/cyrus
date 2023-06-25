@@ -5,6 +5,8 @@
     --white: #FFFFFF;
     --black: #000000;
     --gray: #7d7d7d;
+    --gray-blue: #314659;
+    --green: #11575C
 }
 
 h2 {
@@ -17,6 +19,20 @@ body {
     font-family: "Roboto Mono", monospace;
     background-color: var(--dark-blue);
     color: var(--white);
+}
+
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 20px rgba(0, 0, 0, 1);
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 7px rgba(255, 255, 255, 0.8);
 }
 
 .main {
@@ -69,11 +85,52 @@ body {
 .accordion-content {
     max-height: 0px;
     overflow: hidden;
-    padding-left: 20px;
+    padding: 0 20px;
     transition: max-height 0.5s;
     background-color: var(--dark-blue);
 }
 
+.accordion-content li {
+    font-size: 16px;
+    padding: 10px;
+    color: var(--green);
+}
+
+
+/* programming skills card */
+
+.programming-skills {
+    padding: 20px;
+    color: var(--gray);
+    list-style-type: none;
+}
+
+.skills-bar {
+    float: right;
+    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.6);
+    height: 12px;
+    width: calc(100% - 150px);
+    border-radius: 10px;
+
+}
+
+.bar {
+    background-color: var(--dark-blue);
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.6);
+
+    height: 12px;
+    width: 100%;
+    max-width: 0px;
+    border-radius: 10px;
+    transition: max-width 1s ease;
+}
+
+.programming-skills li:hover {
+    color: var(--white);
+    .bar {
+        background-color: var(--gray-blue);
+    }
+}
 
 /* size nav styling from now on */
 .side-navbar {
