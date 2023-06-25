@@ -19,6 +19,7 @@ body {
     font-family: "Roboto Mono", monospace;
     background-color: var(--dark-blue);
     color: var(--white);
+    overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -36,21 +37,23 @@ body::-webkit-scrollbar-thumb {
 }
 
 .main {
+    position: absolute;
     margin-left: 200px;
-    display: flex;
-    flex-wrap: wrap;
+    display: block;
+}
+
+.top {
+    display: inline-flex;
+    .card {
+        width: 50%;
+    }
 }
 
 .card {
-    margin: 20px 40px;
-    /* border-radius: 10px;
-    padding-bottom: 20px; */
+    margin: 30px;
     box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.3),
     0 6px 30px 0 rgba(255, 255, 255, 0.3);
-
-    width: 100%;
-    
-    background-color: var(--lighter-dark-blue);
+    min-width: 300px;
 }
 
 .about {
@@ -75,11 +78,11 @@ body::-webkit-scrollbar-thumb {
     display: block;
     padding: 20px;
     cursor: pointer;
-    transition: background-color 1s; /* for hover effect */
+    transition: background-color 0.5s; /* for hover effect */
 }
 
 .accordion-label:hover, .active {
-    background-color: var(--dark-blue);
+    background-color: var(--lighter-dark-blue);
 }
 
 .accordion-content {
@@ -87,7 +90,6 @@ body::-webkit-scrollbar-thumb {
     overflow: hidden;
     padding: 0 20px;
     transition: max-height 0.5s;
-    background-color: var(--dark-blue);
 }
 
 .accordion-content li {
@@ -105,24 +107,28 @@ body::-webkit-scrollbar-thumb {
     list-style-type: none;
 }
 
+.programming-skills li {
+    transition: all 0.5s;
+}
+
 .skills-bar {
     float: right;
     box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.6);
     height: 12px;
     width: calc(100% - 150px);
     border-radius: 10px;
-
+    transition: all 0.5s;
 }
 
 .bar {
-    background-color: var(--dark-blue);
+    background-color: var(--lighter-dark-blue);
     box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.6);
 
     height: 12px;
     width: 100%;
     max-width: 0px;
     border-radius: 10px;
-    transition: max-width 1s ease;
+    transition: all 1s ease;
 }
 
 .programming-skills li:hover {
@@ -156,7 +162,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .profile {
-    padding: 20px;
+    padding: 20px 30px;
 }
 
 .profile-image {
@@ -203,12 +209,13 @@ body::-webkit-scrollbar-thumb {
     color: var(--white);
 }
 
-.language-list {
+.skills {
     font-weight: lighter;
-    font-size: 14px;
+    padding: 5px;
+    font-size: 13px;
     color: var(--gray);
+    align-items: center;
 }
-
-.language-list li {
-    padding: 3px;
+.skills li {
+    padding: 8px;
 }
