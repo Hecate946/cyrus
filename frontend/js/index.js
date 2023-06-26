@@ -23,7 +23,16 @@ close_buttons.forEach(function (btn) {
         event.preventDefault();
         close_sound.play();
         close_sound.onended = function () {
-            btn.parentElement.parentElement.parentElement.style.opacity = 0;
+            var box = btn.parentElement.parentElement.parentElement;
+            console.log(box);
+            box.classList.add('visuallyhidden');    
+            box.addEventListener('transitionend', function(e) {
+              box.classList.add('hidden');
+            }, {
+              capture: false,
+              once: true,
+              passive: false
+            });
         };
     });
 });
@@ -35,7 +44,10 @@ links.forEach(function (link) {
         click_sound.onended = function () {
             if (link.id == "#links-popup") {
                 var popup = document.getElementById("links-div")
-                popup.style.opacity = 1;
+                popup.classList.remove('hidden');
+                setTimeout(function () {
+                    popup.classList.remove('visuallyhidden');
+                }, 20);
             }
             else {
                 window.location = link.href;   // navigate to clicked link when audio stops playing
