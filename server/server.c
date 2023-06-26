@@ -167,6 +167,11 @@ void resp_404(int fd)
 // read and return a file from disk or cache
 void get_file(int fd, struct cache *cache, char *request_path)
 {
+    // redirect requests to /favicon.ico to the actual file path
+    if (strcmp(request_path, "/favicon.ico") == 0) {
+        return get_file(fd, cache, "/assets/icons/favicon.ico");
+    }
+
     // get the file extension from the filename.
     char *ext = strrchr(request_path, '.');
     // if no extension, try adding '.html'
