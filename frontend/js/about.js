@@ -27,6 +27,12 @@ function typeWriter(initial_text, index, char) {
     if (elem) {
         // use setTimeout to create a delay.
         time = setTimeout(function () {
+            if (initial_text[char - 1] === "<") {
+                while (initial_text[char - 1] !== ">") {
+                    char++;
+                }
+                char++;
+            }
             // create a string with the current characters to display
             var type = initial_text.substring(0, char);
             // update the html to contain the new text.s
@@ -34,8 +40,12 @@ function typeWriter(initial_text, index, char) {
             // set the opacity to 1 so we can see the text.
             elem.style.display = "block";
 
+            
             var pause_length = PUNCTUATION_PAUSE_MS/CHARACTER_DELAY_MS;
-            if (PUNCTUATION_TO_PAUSE.includes(type.slice(-1)) && pause_counter <= pause_length) {
+            if (elem.classList.contains("no-pause") === true) {
+                pause_length = 0;
+            }
+            if (PUNCTUATION_TO_PAUSE.includes(type.slice(-1)) && pause_counter < pause_length) {
                 pause_counter++;
                 typeWriter(initial_text, index, char);
                 return;
@@ -44,7 +54,6 @@ function typeWriter(initial_text, index, char) {
                 pause_counter = 0;
                 // recursively call the typewriter to print the next character.
                 typeWriter(initial_text, index, char + 1);
-
             }
 
             // we've reached the end of a typewriter.

@@ -46,7 +46,8 @@ body {
 }
 
 .icon-container {
-    padding: 8px;
+    margin: 8px;
+    padding: 6px;
     font-weight: bold;
     border: 1.6px solid white;
     background-color: #0e2a38;
@@ -94,10 +95,16 @@ body {
 }
 
 .draggable-div-body {
-    display: flex;
+    display: block;
+    text-align: center;
     align-items: center;
-    flex-wrap: wrap;
     padding: 30px;
+}
+
+.three-links {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .header-title {
@@ -119,4 +126,14 @@ body {
 .close:hover {
     border-radius: 10px;
     background-color: #060e16;
+}
+
+
+#codeblock {
+    font-family: monospace;
+    margin: 20px;
+    padding: 25px;
+    background-color: black;
+    border-radius: 10px;
+    font-size: 14px;
 }

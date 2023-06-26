@@ -52,7 +52,7 @@ var isDown = false;
 
 const draggables = document.querySelectorAll(".draggable-div");
 draggables.forEach(function (draggable) {
-    if (draggable.style.opacity == 0) {
+    if (draggable.style.opacity === 0) {
         return; // we only care about the visible elements!
     }
     draggable.addEventListener('mousedown', function (e) {
