@@ -9,7 +9,7 @@
 
 <body>
     <div class='webpage'>
-        <div id='links-div' class='draggable-div'>
+        <div id='links-div' class='draggable-div hidden visuallyhidden'>
             <div class='draggable-div-header'>
                 <div class='header-title header-div'>Links</div>
                 <div class='spacer header-div'></div>
@@ -30,7 +30,8 @@
                         </div>
                         <div class='icon-label'>Discord</div>
                     </a>
-                    <a class='navbar-item redirect' href='https://open.spotify.com/user/x7vjqlqi759vsiemiqh9ekdoa?si=a7c2d461fd0d4e82'>
+                    <a class='navbar-item redirect'
+                        href='https://open.spotify.com/user/x7vjqlqi759vsiemiqh9ekdoa?si=a7c2d461fd0d4e82'>
                         <div class='icon-container'>
                             <image draggable='false' src='./assets/icons/spotify.png' class='icon'></image>
                         </div>
@@ -104,12 +105,31 @@
                 <div class='icon-label'>Stats</div>
             </a>
         </div>
-        <div id="codeblock" class="typewriter no-pause">
+        <div class="codeblock-parent">
+            <div class="tab-container">
+                <div id="tab1" class="tab" onClick="JavaScript:selectTab(1);">JavaScript</div>
+                <div id="tab2" class="tab" onClick="JavaScript:selectTab(2);">Python</div>
+                <div id="tab3" class="tab" onClick="JavaScript:selectTab(3);">C++</div>
+                <div id="tab4" class="tab" onClick="JavaScript:selectTab(4);">C</div>
+            </div>
+
+            <div id="tab1Content" class="no-pause codeblock js default">
+                <pre class="code">
+                    
+                </pre>
+            </div>
+            <div id="tab2Content" class="no-pause codeblock py">
+
+            </div>
+            <div id="tab3Content" class=" codeblock c++">
+            </div>
+            <div id="tab4Content" class=" codeblock c">
+
+            </div>
         </div>
     </div>
     <script src='./js/index.js'></script>
-    <script src='./js/syntax.js'></script>
-    <script src='./js/about.js'></script>
+    <script src='./js/writer.js'></script>
 </body>
 
 
