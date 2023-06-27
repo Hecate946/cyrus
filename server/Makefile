@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -pthread
 
 OBJS=server.o net.o utils.o cache.o hashtable.o llist.o usage.o
 
