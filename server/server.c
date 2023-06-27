@@ -244,8 +244,8 @@ void handle_http_request(int fd, struct cache *cache)
         else if (strcmp(request_path, "/api/get_stats") == 0) {
             api_get_stats(fd);
         } 
-        else
-        {   // serve a file to the client.
+        else {
+            // serve a file to the client.
             get_file(fd, cache, request_path);
         }
     }
