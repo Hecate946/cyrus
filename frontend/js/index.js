@@ -24,7 +24,6 @@ close_buttons.forEach(function (btn) {
         close_sound.play();
         close_sound.onended = function () {
             var box = btn.parentElement.parentElement.parentElement;
-            console.log(box);
             box.classList.add('visuallyhidden');    
             box.addEventListener('transitionend', function(e) {
               box.classList.add('hidden');
