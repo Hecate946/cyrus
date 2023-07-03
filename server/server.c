@@ -18,7 +18,7 @@
 #include "cache.h"
 #include "usage.h"
 
-#define WEBSERVER_PORT "8080" // the port to host the webserver.
+#define WEBSERVER_PORT "80" // the port to host the webserver.
 #define ROOT_HTML_FILE "/index.html" // file to server on '/'.
 #define FRONTEND_FILES "../frontend" // path to frontend files.
 #define MAX_CACHE_SIZE 1 // the max number of pages to cache.
