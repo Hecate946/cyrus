@@ -1,4 +1,13 @@
 #!/bin/sh
 cd ./server
 make
-./webserver
+
+if [ "$1" = "prod" ]; then
+    if which pm2 > /dev/null; then
+        pm2 start ./webserver
+    else
+        echo "pm2 not found"
+    fi
+else
+    ./webserver
+fi
