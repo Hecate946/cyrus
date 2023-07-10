@@ -19,6 +19,7 @@
 #include "usage.h"
 
 #define WEBSERVER_PORT "80" // the port to host the webserver.
+#define LOCALHOST_PORT "8080" // port to host webserver if WEBSERVER_PORT is in use
 #define ROOT_HTML_FILE "/index.html" // file to server on '/'.
 #define FRONTEND_FILES "../frontend" // path to frontend files.
 #define MAX_CACHE_SIZE 1 // the max number of pages to cache.
@@ -284,13 +285,20 @@ int main(void)
     // get a listening socket.
     int listenfd = get_listener_socket(WEBSERVER_PORT);
     // bad response from socket.
-    if (listenfd < 0)
-    {   // log the error and exit.
-        fprintf(stderr, "[server] fatal error getting listening socket\n");
-        exit(1);
+    if (listenfd < 0) {
+        listenfd = get_listener_socket(LOCALHOST_PORT);
+        if (listenfd < 0) {
+            // log the error and exit.
+            fprintf(stderr, "[server] fatal error getting listening socket\n");
+            exit(1);
+        }
+        else {
+            printf("[server] running on port: %s\n", LOCALHOST_PORT);
+        }
     }
-
-    printf("[server] running on port: %s\n", WEBSERVER_PORT);
+    else {
+        printf("[server] running on port: %s\n", WEBSERVER_PORT);
+    }
 
     // this is the main loop that accepts incoming connections and
     // responds to the request. the main parent process

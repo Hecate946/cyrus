@@ -91,7 +91,7 @@ int get_listener_socket(char *port)
     // If p is NULL, it means we didn't break out of the loop, above,
     // and we don't have a good socket.
     if (p == NULL)  {
-        fprintf(stderr, "webserver: failed to find local address\n");
+        fprintf(stderr, "webserver: failed to find local address at default webserver port\n");
         return -3;
     }
 
