@@ -2,6 +2,33 @@
 <html>
 
 <head>
-    <link rel='stylesheet' type='text/css' href='./css/index.css' />
+    <link rel='stylesheet' type='text/css' href='./css/physics1a_project.css' />
     <title>hecate</title>
 </head>
+
+<body>
+    <div class="simulation-parent">
+        <div id="simulation">
+            <div id="block"></div>
+        </div>
+        <div class="option-container">
+            <form action="javascript:handleForm()">
+                <div>
+                    <h4>Force</h4>
+                    <input type="text" id="force" class="form-control" placeholder="Enter force in Newtons (N)">
+                </div>
+                <div>
+                    <h4>Mass</h4>
+                    <input type="text" id="mass" class="form-control" placeholder="Enter mass in kilograms (kg)">
+                </div>
+
+                <div>
+                    <h4>Friction Coefficient</h4>
+                    <input type="text" id="friction" class="form-control" placeholder="Enter friction coefficient">
+                </div>
+                <button type="submit">Start</button>
+            </form>
+        </div>
+    </div>
+    <script src='./js/physics1a_project.js'></script>
+</body>

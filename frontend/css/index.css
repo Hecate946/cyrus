@@ -1,6 +1,8 @@
 :root {
     --teal-blue: #0e2a38;
     --dark-blue: #060e16;
+    color: white;
+    font-family: "Roboto Mono", monospace;
 }
 
 a,

@@ -1,0 +1,56 @@
+:root {
+    --dark-blue: #060e16;
+    --lighter-dark-blue: #0e2a38;
+    --pink: #ff62ef;
+    --purple: #52064a;
+    --white: #FFFFFF;
+    --black: #000000;
+    --light-gray: #979797;
+    --gray: #7d7d7d;
+    --gray-blue: #314659;
+    --green: #11575C;
+    color: var(--white);
+    background-color: var(--dark-blue);
+    font-family: "Roboto Mono", monospace;
+}
+
+
+#simulation {
+    position: relative;
+    border: 1px solid var(--white);
+    height: 200px;
+    width: 800px;
+}
+
+#block {
+    position: absolute;
+    background-color: var(--light-gray);
+    border: 3px solid var(--pink);
+    border-radius: 3px;
+    height: 70px;
+    width: 70px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.option-container form {
+    display: flex;
+}
+.option-container div {
+    padding: 10px;
+}
+.option-container button {
+    margin: 35px 0 0 40px;
+    padding: 0 50px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--white);
+    background-color: var(--dark-blue);
+    transition: all 1s;
+}
+
+.option-container button:hover {
+    cursor: pointer;
+    background-color: var(--lighter-dark-blue);
+}
+
