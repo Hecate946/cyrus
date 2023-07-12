@@ -9,48 +9,94 @@
     --gray: #7d7d7d;
     --gray-blue: #314659;
     --green: #11575C;
+    --red: #FF0000;
     color: var(--white);
     background-color: var(--dark-blue);
     font-family: "Roboto Mono", monospace;
 }
 
+#time {
+    padding: 10px;
+}
+.simulation-parent {
+    display: flex;
+    width: 600px;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.3),
+    0 6px 30px 0 rgba(255, 255, 255, 0.3);
+}
 
 #simulation {
-    position: relative;
-    border: 1px solid var(--white);
-    height: 200px;
-    width: 800px;
+    margin: 20px;
+    margin-left: 250px;
+    position: fixed;
+    height: 300px;
+    width: 300px;
+}
+
+#parent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+#inner {
+    position: absolute;
+    border-bottom: 1px solid var(--red);
+    width: 100%;
+    top: 50%;
+}
+
+#label {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    padding-top: 10px;
+
 }
 
 #block {
     position: absolute;
     background-color: var(--light-gray);
-    border: 3px solid var(--pink);
-    border-radius: 3px;
-    height: 70px;
-    width: 70px;
-    bottom: 0px;
+    border: 2px solid var(--green);
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    font-size: 10px;
+    bottom: 0;
     left: 0px;
 }
 
-.option-container form {
-    display: flex;
+.option-container {
+    margin: 20px;
 }
+
 .option-container div {
     padding: 10px;
 }
-.option-container button {
-    margin: 35px 0 0 40px;
-    padding: 0 50px;
+
+.button-container {
+    display: flex;
+}
+
+.button-container button {
+    width: 100%;
+    padding: 10px;
     font-size: 18px;
-    font-weight: bold;
     color: var(--white);
-    background-color: var(--dark-blue);
-    transition: all 1s;
 }
 
-.option-container button:hover {
+.button {
+    border-radius: 4px;
+    background-color: var(--red);
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.3),
+    0 6px 30px 0 rgba(255, 255, 255, 0.3);
+    transition: filter 0.5s ease;
+}
+.button:first-child {
+    margin-right: 20px;
+    background-color: var(--green);
+}
+button:hover {
     cursor: pointer;
-    background-color: var(--lighter-dark-blue);
+    filter: brightness(76%);
 }
-

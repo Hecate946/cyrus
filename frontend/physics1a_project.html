@@ -8,26 +8,44 @@
 
 <body>
     <div class="simulation-parent">
-        <div id="simulation">
-            <div id="block"></div>
-        </div>
         <div class="option-container">
-            <form action="javascript:handleForm()">
+            <form action="javascript:handleForm('start')">
                 <div>
-                    <h4>Force</h4>
-                    <input type="text" id="force" class="form-control" placeholder="Enter force in Newtons (N)">
+                    Force<br>
+                    <input type="text" id="force" class="form-control" placeholder="Enter force in Newtons (N)" ,
+                        value="9.81">
                 </div>
                 <div>
-                    <h4>Mass</h4>
-                    <input type="text" id="mass" class="form-control" placeholder="Enter mass in kilograms (kg)">
+                    Mass<br>
+                    <input type="text" id="mass" class="form-control" placeholder="Enter mass in kilograms (kg)"
+                        value="2">
                 </div>
-
                 <div>
-                    <h4>Friction Coefficient</h4>
-                    <input type="text" id="friction" class="form-control" placeholder="Enter friction coefficient">
+                    Friction<br>
+                    <input type="text" id="friction" class="form-control" placeholder="Enter friction coefficient"
+                        value="0">
                 </div>
-                <button type="submit">Start</button>
+                <div>
+                    Slope<br>
+                    <input type="text" id="slope" class="form-control" placeholder="Enter slope in degrees" value="30">
+                </div>
+                <div class="button-container">
+                    <button class="button" type="submit" >Start</button>
+                    <button class="button" type="button" onclick="javascript:handleForm('reset')">Reset</button>
+                </div>
             </form>
+        </div>
+        <div id="simulation">
+            <div id="parent">
+                <div id="inner"">
+                    <div id="block">1 meter</div>
+                </div>
+                <div id="label">
+                    <span>Total distance: 10 meters</span><br>
+                    <span id="distance">Distance traveled: 0 m</span><br>
+                    <span id="time">Time taken: 0 ms</span>
+                </div>
+            </div>
         </div>
     </div>
     <script src='./js/physics1a_project.js'></script>
