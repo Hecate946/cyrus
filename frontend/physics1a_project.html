@@ -13,21 +13,31 @@
                 <div>
                     Force<br>
                     <input type="text" id="force" class="form-control" placeholder="Enter force in Newtons (N)" ,
-                        value="9.81">
+                        value="50">
                 </div>
                 <div>
                     Mass<br>
-                    <input type="text" id="mass" class="form-control" placeholder="Enter mass in kilograms (kg)"
-                        value="2">
-                </div>
-                <div>
-                    Friction<br>
-                    <input type="text" id="friction" class="form-control" placeholder="Enter friction coefficient"
-                        value="0">
+                    <input type="text" id="mass" class="form-control" placeholder="Enter mass in kilograms (kg)" ,
+                    value="2">
                 </div>
                 <div>
                     Slope<br>
-                    <input type="text" id="slope" class="form-control" placeholder="Enter slope in degrees" value="30">
+                    <input type="text" id="slope" class="form-control" placeholder="Enter slope in degrees" value="0">
+                </div>
+                <div>
+                    Gravity<br>
+                    <input type="text" id="gravity" class="form-control" placeholder="Enter gravity acceleration" ,
+                        value="9.81">
+                </div>
+                <div>
+                    Static Friction<br>
+                    <input type="text" id="sfriction" class="form-control" placeholder="Enter static friction"
+                        value="0.4">
+                </div>
+                <div>
+                    Kinetic Friction<br>
+                    <input type="text" id="kfriction" class="form-control" placeholder="Enter kinetic friction"
+                        value="0.25">
                 </div>
                 <div class="button-container">
                     <button class="button" type="submit" >Start</button>
@@ -37,13 +47,13 @@
         </div>
         <div id="simulation">
             <div id="parent">
-                <div id="inner"">
+                <div id="line"">
                     <div id="block">1 meter</div>
                 </div>
                 <div id="label">
                     <span>Total distance: 10 meters</span><br>
-                    <span id="distance">Distance traveled: 0 m</span><br>
-                    <span id="time">Time taken: 0 ms</span>
+                    <span id="distance-label">Distance traveled: 0 m</span><br>
+                    <span id="time-label">Time taken: 0 ms</span>
                 </div>
             </div>
         </div>

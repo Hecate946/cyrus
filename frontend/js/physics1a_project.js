@@ -1,79 +1,124 @@
-var timeout;
 
+var timeout;
 function handleForm(button) {
-    if (button == "reset") {
-        document.getElementById("block").style.left = 0;
-        document.getElementById("time").innerHTML = "Time taken: 0 ms";
-        document.getElementById("distance").innerHTML = "Distance traveled: 0 m";
-        clearTimeout(timeout);
+
+    // establish some constant elements.
+    const TIME_LABEL = document.getElementById("time-label");
+    const DISTANCE_LABEL = document.getElementById("distance-label");
+    const BLOCK = document.getElementById("block");
+    const LINE = document.getElementById("line");
+    const PARENT = document.getElementById("parent");
+    // 1 meter = 30 pixels for our animation.
+    const METERS_TO_PIXELS = LINE.offsetWidth/10
+    const TOTAL_TRAVEL_DISTANCE = (LINE.offsetWidth - BLOCK.offsetWidth) / METERS_TO_PIXELS;
+
+    // establish the form input variables.
+    var force = Number(document.getElementById('force').value);
+    var mass = Number(document.getElementById('mass').value);
+    var slope = Number(document.getElementById('slope').value);
+    var gravity = Number(document.getElementById('gravity').value);
+    var staticFriction = Number(document.getElementById('sfriction').value);
+    var kineticFriction = Number(document.getElementById('kfriction').value);
+
+    // do some checks on input validity.
+    if (isNaN(force) || force < 0) {
+        alert("Force value must be a positive real number");
         return;
     }
-    var force = document.getElementById('force').value;
-    var mass = document.getElementById('mass').value;
-    var friction = document.getElementById('friction').value;
-    var slope = document.getElementById('slope').value;
-    if (isNaN(force)) {
-        alert("Force value must be a real number");
-        return;
-    }
-    if (isNaN(mass)) {
-        alert("Mass value must be a real number");
-        return;
-    }
-    if (isNaN(friction) || friction < 0 || friction > 1) {
-        alert("Frictional coefficient must be a real number between 0.00 and 1.00");
+    if (isNaN(mass) || mass < 0) {
+        alert("Mass value must be a positive real number");
         return;
     }
     if (isNaN(slope) || slope < 0 || slope > 90) {
         alert("Slope must be between 0 and 90 degrees.");
         return;
     }
-    document.getElementById("time").innerHTML = "Time taken: 0 ms";
-    document.getElementById("distance").innerHTML = "Distance traveled: 0 m";
-    document.getElementById("parent").style.transform = `rotate(${slope}deg)`
-    document.getElementById("block").style.left = 0;
-
-    clearTimeout(timeout);
-    moveBlock(force, mass, friction, slope, 0, 0);
-}
-
-function toRadians (angle) {
-    return angle * (Math.PI / 180);
-  }
-
-function moveBlock(force, mass, friction, slope, milliseconds, traveled) {
-    // 10 meter = 300 pixels
-    var parentWidth = document.getElementById("inner").offsetWidth;
-    const METERS_TO_PIXELS = parentWidth/10;
-    milliseconds++;
-    var seconds = milliseconds / 1000;
-
-    var gravitational_force_parallel = mass * force * Math.sin(toRadians(slope));
-    var normal_force = mass * force * Math.cos(toRadians(slope));
-
-    var frictional_force = normal_force * friction;
-
-    if (gravitational_force_parallel <= frictional_force) {
-        return; // no work needed.
+    if (isNaN(gravity) || gravity < 0) {
+        alert("Gravity acceleration value must be a positive real number");
+        return;
     }
-    var accel = (gravitational_force_parallel - frictional_force) / mass;
+    if (isNaN(staticFriction) || staticFriction < 0 ) {
+        alert("Static frictional coefficient must be a positive real number");
+        return;
+    }
+    if (isNaN(kineticFriction) || kineticFriction < 0) {
+        alert("Kinetic frictional coefficient must be a positive real number");
+        return;
+    }
 
-    // distance = 1/2 * accel * t^2
-    var toTravel = 0.5 * accel * seconds * seconds; // result in meters.
-    // assume 1 meter = 30 pixels
-    traveled = toTravel * METERS_TO_PIXELS;
 
-    timeout = setTimeout(function () {
-        var block = document.getElementById("block");
-        document.getElementById("time").innerHTML = `Time taken: ${milliseconds} ms`;
-        document.getElementById("distance").innerHTML = `Distance traveled: ${(traveled/METERS_TO_PIXELS).toFixed(2)} m`;
-        block.style.left = traveled + "px";
-        moveBlock(force, mass, friction, slope, milliseconds, traveled);
-        if (traveled + block.offsetWidth >= parentWidth) {
-            document.getElementById("time").innerHTML = `Time taken: ${Math.round(Math.sqrt(18/(force * Math.sin(toRadians(slope)))) * 1000)} ms`;
-            document.getElementById("distance").innerHTML = `Distance traveled: 9.00 m`;
-            block.style.left = parentWidth - block.offsetWidth + "px";
-            clearTimeout(timeout);
+
+    // stop the recursive function in case we were running.
+    clearTimeout(timeout);
+    // put the block at starting position
+    BLOCK.style.left = 0;
+    // reset counters
+    TIME_LABEL.innerHTML = "Time taken: 0 ms";
+    DISTANCE_LABEL.innerHTML = "Distance traveled: 0 m";
+    // rotate the line.
+    PARENT.style.transform = `rotate(${slope}deg)`
+
+    if (button == "reset") {
+        // we already reset all the counters
+        return; // just return.
+    }
+
+    // start moving our block with time = 0.
+    moveBlock(0);
+
+    // move the block to a position based on time in milliseconds.
+    function moveBlock(timeMs) {
+        timeMs++;
+        // distance in meters.
+        var distToMove = distanceFromTimeMs(timeMs);
+        if (distToMove == 0) {
+            return;
         }
-    }, 1);
+
+        timeout = setTimeout(function () {
+            TIME_LABEL.innerHTML = `Time taken: ${timeMs} ms`;
+            DISTANCE_LABEL.innerHTML = `Distance traveled: ${(distToMove).toFixed(2)} m`;
+            BLOCK.style.left = distToMove * METERS_TO_PIXELS + "px";
+            moveBlock(timeMs); // run again.
+
+            if (distToMove * METERS_TO_PIXELS + BLOCK.offsetWidth >= LINE.offsetWidth) { // we've reached the end.
+                // update to reflect final values.
+                TIME_LABEL.innerHTML = `Time taken: ${timeMsFromDistance(TOTAL_TRAVEL_DISTANCE)} ms`;
+                DISTANCE_LABEL.innerHTML = `Distance traveled: ${TOTAL_TRAVEL_DISTANCE.toFixed(2)} m`;
+                BLOCK.style.left = LINE.offsetWidth - BLOCK.offsetWidth + "px";
+                clearTimeout(timeout);
+            }
+        }, 1); // this function runs once per millisecond.
+    }
+
+    function toRadians (angle) { // utility function
+        return angle * (Math.PI / 180);
+    }
+    function calculateAcceleration() {
+        var forceParallel = mass * gravity * Math.sin(toRadians(slope)) + force;
+        var normalForce = mass * gravity * Math.cos(toRadians(slope));
+
+        var staticFrictionalForce = normalForce * staticFriction;
+        if (staticFrictionalForce > forceParallel) {
+            return 0; // no work needed, the block won't move.
+        }
+
+        var kineticFrictionalForce = normalForce * kineticFriction;
+        var totalForce = forceParallel - kineticFrictionalForce;
+        return totalForce / mass;
+    }
+
+    function timeMsFromDistance(meters) {
+        var accel = calculateAcceleration();
+        // time = sqrt(distance/(1/2 * accel))
+        var time = Math.sqrt(meters/(0.5 * accel));
+        return Math.round(time*1000);
+    }
+
+    function distanceFromTimeMs(timeMs) {
+        var t = timeMs / 1000; // convert from ms to seconds.
+        var accel = calculateAcceleration();
+        // distance = 1/2 * accel * time^2
+        return 0.5 * accel * t * t;
+    }
 }
