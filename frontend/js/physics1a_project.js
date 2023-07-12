@@ -29,8 +29,8 @@ function handleForm(button) {
         alert("Mass value must be a positive real number");
         return;
     }
-    if (isNaN(slope) || slope < 0 || slope > 90) {
-        alert("Slope must be between 0 and 90 degrees.");
+    if (isNaN(slope) || slope < -90 || slope > 90) {
+        alert("Slope must be between -90 and 90 degrees.");
         return;
     }
     if (isNaN(gravity) || gravity < 0) {
