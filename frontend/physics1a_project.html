@@ -40,8 +40,9 @@
                         value="0.25">
                 </div>
                 <div class="button-container">
-                    <button class="button" type="submit" >Start</button>
-                    <button class="button" type="button" onclick="javascript:handleForm('reset')">Reset</button>
+                    <button class="button" type="submit" onclick="click_sound.play();">Start</button>
+                    <button class="button close" type="button" onclick="javascript:handleForm('reset')">Reset</button>
+                    <button class="button redirect" type="button" onclick='window.open("https://github.com/Hecate946/hecate946.com/blob/master/frontend/js/physics1a_project.js")'>Code</button>
                 </div>
             </form>
         </div>
@@ -59,4 +60,5 @@
         </div>
     </div>
     <script src='./js/physics1a_project.js'></script>
+    <script src='./js/sounds.js'></script>
 </body>

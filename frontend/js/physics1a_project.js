@@ -7,7 +7,6 @@ function handleForm(button) {
     const DISTANCE_LABEL = document.getElementById("distance-label");
     const BLOCK = document.getElementById("block");
     const LINE = document.getElementById("line");
-    const PARENT = document.getElementById("parent");
     // 1 meter = 30 pixels for our animation.
     const METERS_TO_PIXELS = LINE.offsetWidth/10
     const TOTAL_TRAVEL_DISTANCE = (LINE.offsetWidth - BLOCK.offsetWidth) / METERS_TO_PIXELS;
@@ -56,7 +55,7 @@ function handleForm(button) {
     TIME_LABEL.innerHTML = "Time taken: 0 ms";
     DISTANCE_LABEL.innerHTML = "Distance traveled: 0 m";
     // rotate the line.
-    PARENT.style.transform = `rotate(${slope}deg)`
+    LINE.style.transform = `rotate(${slope}deg)`
 
     if (button == "reset") {
         // we already reset all the counters
