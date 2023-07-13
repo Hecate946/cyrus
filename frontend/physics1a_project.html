@@ -7,58 +7,130 @@
 </head>
 
 <body>
-    <div class="simulation-parent">
-        <div class="option-container">
-            <form action="javascript:handleForm('start')">
-                <div>
-                    Force<br>
-                    <input type="text" id="force" class="form-control" placeholder="Enter force in Newtons (N)" ,
-                        value="50">
+    <div class="canvas">
+
+        <div class="title">Inertia Simulator</div>
+        <div class="card">
+            <h2 class="projects">Personal Projects</h2>
+            <div class="accordion">
+                <label class="accordion-label">
+                    Image-to-Key Modeling Software
+                </label>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Uses Python image manipulation to analyze the key dimensions.
+                        </li>
+                        <li>Uses OpenSCAD to precisely generate STL files.
+                        </li>
+                        <li>Utilize Postgresql to store metadata from key manuals.
+                        </li>
+                    </ul>
                 </div>
-                <div>
-                    Mass<br>
-                    <input type="text" id="mass" class="form-control" placeholder="Enter mass in kilograms (kg)" ,
-                    value="2">
+            </div>
+            <div class="accordion">
+                <label class="accordion-label">Spotify Stats Web Application</label>
+
+                <div class="accordion-content">
+                    <ul>
+                        <li>Use Python's Flask framework to develop a fast async web app.
+                        </li>
+                        <li>Used encoding and databases to set up a secure unique ID system.
+                        </li>
+                        <li>Wrote 15,000+ lines of Python, JS, HTML, and CSS code.
+                        </li>
+                        <li>Worked closely with Spotify API authentication to fetch user data.
+                        </li>
+                        <li>Used audio streaming to provide Spotify track sound previews.
+                        </li>
+                    </ul>
                 </div>
-                <div>
-                    Slope<br>
-                    <input type="text" id="slope" class="form-control" placeholder="Enter slope in degrees" value="0">
+            </div>
+            <div class="accordion">
+                <label class="accordion-label">Multipurpose Discord Bot</label>
+
+                <div class="accordion-content">
+                    <ul>
+                        <li>100% open source app with 800,000 Discord users.
+                        </li>
+                        <li>Audio manipulation and streaming with FFMPEG.
+                        </li>
+                        <li>Wrote over 30,000 lines of code to implement 320 commands.
+                        </li>
+                        <li>User moderation, stats tracking, utility, music playing, and more.
+                        </li>
+                    </ul>
                 </div>
-                <div>
-                    Gravity<br>
-                    <input type="text" id="gravity" class="form-control" placeholder="Enter gravity acceleration" ,
-                        value="9.81">
-                </div>
-                <div>
-                    Static Friction<br>
-                    <input type="text" id="sfriction" class="form-control" placeholder="Enter static friction"
-                        value="0.4">
-                </div>
-                <div>
-                    Kinetic Friction<br>
-                    <input type="text" id="kfriction" class="form-control" placeholder="Enter kinetic friction"
-                        value="0.25">
-                </div>
-                <div class="button-container">
-                    <button class="button" type="submit" onclick="click_sound.play();">Start</button>
-                    <button class="button close" type="button" onclick="javascript:handleForm('reset')">Reset</button>
-                    <button class="button redirect" type="button" onclick='window.open("https://github.com/Hecate946/hecate946.com/blob/master/frontend/js/physics1a_project.js")'>Code</button>
-                </div>
-            </form>
-        </div>
-        <div id="simulation">
-            <div id="parent">
-                <div id="line"">
-                    <div id="block">1 meter</div>
-                </div>
-                <div id="label">
-                    <span>Total distance: 10 meters</span><br>
-                    <span id="distance-label">Distance traveled: 0 m</span><br>
-                    <span id="time-label">Time taken: 0 ms</span>
+            </div>
+            <div class="accordion">
+                <label class="accordion-label">Personal Website</label>
+
+                <div class="accordion-content">
+                    <ul>
+                        <li>Fully functional webserver written in C with socket calls.
+                        </li>
+                        <li>Dynamic frontend with audio effects and responsive CSS.
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+        <div class="simulation-parent">
+            <div class="option-container">
+                <form action="javascript:handleForm('start')">
+                    <div>
+                        Force<br>
+                        <input type="text" id="force" class="form-control" placeholder="Enter force in Newtons (N)" ,
+                            value="50">
+                    </div>
+                    <div>
+                        Mass<br>
+                        <input type="text" id="mass" class="form-control" placeholder="Enter mass in kilograms (kg)" ,
+                            value="2">
+                    </div>
+                    <div>
+                        Slope<br>
+                        <input type="text" id="slope" class="form-control" placeholder="Enter slope in degrees"
+                            value="0">
+                    </div>
+                    <div>
+                        Gravity<br>
+                        <input type="text" id="gravity" class="form-control" placeholder="Enter gravity acceleration" ,
+                            value="9.81">
+                    </div>
+                    <div>
+                        Static Friction<br>
+                        <input type="text" id="sfriction" class="form-control" placeholder="Enter static friction"
+                            value="0.4">
+                    </div>
+                    <div>
+                        Kinetic Friction<br>
+                        <input type="text" id="kfriction" class="form-control" placeholder="Enter kinetic friction"
+                            value="0.25">
+                    </div>
+                    <div class="button-container">
+                        <button class="button" type="submit" onclick="click_sound.play();">Start</button>
+                        <button class="button close" type="button"
+                            onclick="javascript:handleForm('reset')">Reset</button>
+                        <button class="button redirect" type="button"
+                            onclick='window.open("https://github.com/Hecate946/hecate946.com/blob/master/frontend/js/physics1a_project.js")'>Code</button>
+                    </div>
+                </form>
+            </div>
+            <div id="parent">
+                <div id="simulation">
+                    <div id="line"">
+                        <div id=" block">1 meter width</div>
+                </div>
+            </div>
+            <div id="label">
+                <span>Line length: 10 meters</span><br>
+                <span id="distance-label">Distance traveled: 0 m</span><br>
+                <span id="time-label">Time taken: 0 ms</span>
+            </div>
+        </div>
+    </div>
     </div>
     <script src='./js/physics1a_project.js'></script>
+    <script src="./js/accordion.js"></script>
     <script src='./js/sounds.js'></script>
 </body>

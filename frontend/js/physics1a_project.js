@@ -50,7 +50,7 @@ function handleForm(button) {
     // stop the recursive function in case we were running.
     clearTimeout(timeout);
     // put the block at starting position
-    BLOCK.style.left = 0;
+    BLOCK.style.marginLeft = 0;
     // reset counters
     TIME_LABEL.innerHTML = "Time taken: 0 ms";
     DISTANCE_LABEL.innerHTML = "Distance traveled: 0 m";
@@ -77,14 +77,14 @@ function handleForm(button) {
         timeout = setTimeout(function () {
             TIME_LABEL.innerHTML = `Time taken: ${timeMs} ms`;
             DISTANCE_LABEL.innerHTML = `Distance traveled: ${(distToMove).toFixed(2)} m`;
-            BLOCK.style.left = distToMove * METERS_TO_PIXELS + "px";
+            BLOCK.style.marginLeft = distToMove * METERS_TO_PIXELS + "px";
             moveBlock(timeMs); // run again.
 
             if (distToMove * METERS_TO_PIXELS + BLOCK.offsetWidth >= LINE.offsetWidth) { // we've reached the end.
                 // update to reflect final values.
                 TIME_LABEL.innerHTML = `Time taken: ${timeMsFromDistance(TOTAL_TRAVEL_DISTANCE)} ms`;
                 DISTANCE_LABEL.innerHTML = `Distance traveled: ${TOTAL_TRAVEL_DISTANCE.toFixed(2)} m`;
-                BLOCK.style.left = LINE.offsetWidth - BLOCK.offsetWidth + "px";
+                BLOCK.style.marginLeft = LINE.offsetWidth - BLOCK.offsetWidth + "px";
                 clearTimeout(timeout);
             }
         }, 1); // this function runs once per millisecond.
