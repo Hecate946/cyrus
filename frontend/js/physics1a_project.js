@@ -3,6 +3,10 @@ var timeout;
 function handleForm(button) {
 
     // establish some constant elements.
+
+    const DGRAPH = document.getElementById("distance-graph");
+    const VGRAPH = document.getElementById("velocity-graph");
+
     const TIME_LABEL = document.getElementById("time-label");
     const DISTANCE_LABEL = document.getElementById("distance-label");
     const BLOCK = document.getElementById("block");
@@ -52,11 +56,14 @@ function handleForm(button) {
     // put the block at starting position
     BLOCK.style.marginLeft = 0;
     // reset counters
-    TIME_LABEL.innerHTML = "Time taken: 0 ms";
-    DISTANCE_LABEL.innerHTML = "Distance traveled: 0 m";
+    TIME_LABEL.innerHTML = "Time: 0 ms";
+    DISTANCE_LABEL.innerHTML = "Distance: 0 m";
     // rotate the line.
     LINE.style.transform = `rotate(${slope}deg)`
 
+    // clear the graphs
+    DGRAPH.innerHTML = "";
+    VGRAPH.innerHTML = "";
     if (button == "reset") {
         // we already reset all the counters
         return; // just return.
@@ -67,7 +74,7 @@ function handleForm(button) {
 
     // move the block to a position based on time in milliseconds.
     function moveBlock(timeMs) {
-        timeMs++;
+        timeMs+=5.3; // time measured on my computer to match actual times.
         // distance in meters.
         var distToMove = distanceFromTimeMs(timeMs);
         if (distToMove == 0) {
@@ -75,15 +82,18 @@ function handleForm(button) {
         }
 
         timeout = setTimeout(function () {
-            TIME_LABEL.innerHTML = `Time taken: ${timeMs} ms`;
-            DISTANCE_LABEL.innerHTML = `Distance traveled: ${(distToMove).toFixed(2)} m`;
+            TIME_LABEL.innerHTML = `Time: ${timeMs.toFixed(0)} ms`;
+            DISTANCE_LABEL.innerHTML = `Distance: ${distToMove.toFixed(2)} m`;
+            updateDistanceGraph(timeMs, distToMove);
+            updateVelocityGraph(timeMs, distToMove);
+
             BLOCK.style.marginLeft = distToMove * METERS_TO_PIXELS + "px";
             moveBlock(timeMs); // run again.
 
             if (distToMove * METERS_TO_PIXELS + BLOCK.offsetWidth >= LINE.offsetWidth) { // we've reached the end.
                 // update to reflect final values.
-                TIME_LABEL.innerHTML = `Time taken: ${timeMsFromDistance(TOTAL_TRAVEL_DISTANCE)} ms`;
-                DISTANCE_LABEL.innerHTML = `Distance traveled: ${TOTAL_TRAVEL_DISTANCE.toFixed(2)} m`;
+                TIME_LABEL.innerHTML = `Time: ${timeMsFromDistance(TOTAL_TRAVEL_DISTANCE)} ms`;
+                DISTANCE_LABEL.innerHTML = `Distance: ${TOTAL_TRAVEL_DISTANCE.toFixed(2)} m`;
                 BLOCK.style.marginLeft = LINE.offsetWidth - BLOCK.offsetWidth + "px";
                 clearTimeout(timeout);
             }
@@ -119,5 +129,37 @@ function handleForm(button) {
         var accel = calculateAcceleration();
         // distance = 1/2 * accel * time^2
         return 0.5 * accel * t * t;
+    }
+
+    function updateDistanceGraph(time, distance) {
+        // 1 meter = 30 px
+        // 1 ms = 30 px/100 ms
+        var bottom = 30 * distance;
+        var left = 0.30 * time;
+        if (bottom >= 300 || left >= 300) {
+            return;
+        }
+
+        var div = document.createElement("div");
+        div.classList.add("data-point");
+        div.style.bottom =  bottom + "px";
+        div.style.left = left + "px";
+        DGRAPH.appendChild(div);
+    }
+
+    function updateVelocityGraph(time, distance) {
+        // 1 meter = 30 px
+        // 1 ms = 30 px/100 ms
+        var bottom = 30 * distance / (time / 1000);
+        var left = 0.30 * time;
+        if (bottom >= 300 || left >= 300) {
+            return;
+        }
+
+        var div = document.createElement("div");
+        div.classList.add("data-point");
+        div.style.bottom =  bottom + "px";
+        div.style.left = left + "px";
+        VGRAPH.appendChild(div);
     }
 }

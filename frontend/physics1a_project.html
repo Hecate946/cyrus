@@ -10,72 +10,9 @@
     <div class="canvas">
 
         <div class="title">Inertia Simulator</div>
-        <div class="card">
-            <h2 class="projects">Personal Projects</h2>
-            <div class="accordion">
-                <label class="accordion-label">
-                    Image-to-Key Modeling Software
-                </label>
-                <div class="accordion-content">
-                    <ul>
-                        <li>Uses Python image manipulation to analyze the key dimensions.
-                        </li>
-                        <li>Uses OpenSCAD to precisely generate STL files.
-                        </li>
-                        <li>Utilize Postgresql to store metadata from key manuals.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="accordion">
-                <label class="accordion-label">Spotify Stats Web Application</label>
-
-                <div class="accordion-content">
-                    <ul>
-                        <li>Use Python's Flask framework to develop a fast async web app.
-                        </li>
-                        <li>Used encoding and databases to set up a secure unique ID system.
-                        </li>
-                        <li>Wrote 15,000+ lines of Python, JS, HTML, and CSS code.
-                        </li>
-                        <li>Worked closely with Spotify API authentication to fetch user data.
-                        </li>
-                        <li>Used audio streaming to provide Spotify track sound previews.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="accordion">
-                <label class="accordion-label">Multipurpose Discord Bot</label>
-
-                <div class="accordion-content">
-                    <ul>
-                        <li>100% open source app with 800,000 Discord users.
-                        </li>
-                        <li>Audio manipulation and streaming with FFMPEG.
-                        </li>
-                        <li>Wrote over 30,000 lines of code to implement 320 commands.
-                        </li>
-                        <li>User moderation, stats tracking, utility, music playing, and more.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="accordion">
-                <label class="accordion-label">Personal Website</label>
-
-                <div class="accordion-content">
-                    <ul>
-                        <li>Fully functional webserver written in C with socket calls.
-                        </li>
-                        <li>Dynamic frontend with audio effects and responsive CSS.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
         <div class="simulation-parent">
             <div class="option-container">
+                Value Controls
                 <form action="javascript:handleForm('start')">
                     <div>
                         Force<br>
@@ -117,20 +54,153 @@
                 </form>
             </div>
             <div id="parent">
+                Ten Meter Animation
                 <div id="simulation">
-                    <div id="line"">
-                        <div id=" block">1 meter width</div>
+                    <div id="line">
+                        <div id="block">
+                            <img id="block" src="./assets/icons/fred.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div id="label">
+                    <span id="distance-label">Distance: 0 m</span>
+                    <span id="time-label">Time: 0 ms</span>
                 </div>
             </div>
-            <div id="label">
-                <span>Line length: 10 meters</span><br>
-                <span id="distance-label">Distance traveled: 0 m</span><br>
-                <span id="time-label">Time taken: 0 ms</span>
+            <div class="graphs">
+                <div class="left-labels">
+
+                    <div>10</div>
+                    <div>9</div>
+                    <div>8</div>
+                    <div>7</div>
+                    <div>6</div>
+                    <div>5</div>
+                    <div>4</div>
+                    <div>3</div>
+                    <div>2</div>
+                    <div>1</div>
+                    <div>0</div>
+                </div>
+                <div class="graph">
+                    Distance (m) vs Time (ms)
+                    <figure class="css-chart" style="--widget-size: 300px;">
+                        <div id="distance-graph" class="line-chart">
+                        </div>
+                    </figure>
+                    <div class="bottom-labels">
+                        <div>0</div>
+                        <div></div>
+                        <div>100</div>
+                        <div>200</div>
+                        <div>300</div>
+                        <div>400</div>
+                        <div>500</div>
+                        <div>600</div>
+                        <div>700</div>
+                        <div>800</div>
+                        <div>900</div>
+                        <div>1000</div>
+                    </div>
+                </div>
+                <div class="left-labels">
+
+                    <div>10</div>
+                    <div>9</div>
+                    <div>8</div>
+                    <div>7</div>
+                    <div>6</div>
+                    <div>5</div>
+                    <div>4</div>
+                    <div>3</div>
+                    <div>2</div>
+                    <div>1</div>
+                    <div>0</div>
+                </div>
+                <div>
+                    Velocity (m/s) vs Time (ms)
+                    <figure class="css-chart" style="--widget-size: 300px;">
+                        <div id="velocity-graph" class="line-chart">
+
+                        </div>
+                    </figure>
+                    <div class="bottom-labels">
+                        <div>0</div>
+                        <div></div>
+                        <div>100</div>
+                        <div>200</div>
+                        <div>300</div>
+                        <div>400</div>
+                        <div>500</div>
+                        <div>600</div>
+                        <div>700</div>
+                        <div>800</div>
+                        <div>900</div>
+                        <div>1000</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    </div>
-    <script src='./js/physics1a_project.js'></script>
-    <script src="./js/accordion.js"></script>
-    <script src='./js/sounds.js'></script>
+        <!-- <div class="card">
+            <h2 class="projects">Personal Projects</h2>
+            <div class="accordion">
+                <label class="accordion-label">
+                    Abstract
+                </label>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Uses Python image manipulation to analyze the key dimensions.
+                        </li>
+                        <li>Uses OpenSCAD to precisely generate STL files.
+                        </li>
+                        <li>Utilize Postgresql to store metadata from key manuals.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="accordion">
+                <label class="accordion-label">Spotify Stats Web Application</label>
+
+                <div class="accordion-content">
+                    <ul>
+                        <li>Use Python's Flask framework to develop a fast async web app.
+                        </li>
+                        <li>Used encoding and databases to set up a secure unique ID system.
+                        </li>
+                        <li>Wrote 15,000+ lines of Python, JS, HTML, and CSS code.
+                        </li>
+                        <li>Worked closely with Spotify API authentication to fetch user data.
+                        </li>
+                        <li>Used audio streaming to provide Spotify track sound previews.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="accordion">
+                <label class="accordion-label">Method</label>
+
+                <div class="accordion-content">
+                    <div class="text">
+                        The presentation of this research project is done entirely with html/css and vanilla javascript.
+                        The source code for the simulation computations and design can be found by clicking the orange
+                        "Code" button above.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <label class="accordion-label">Personal Website</label>
+
+                <div class="accordion-content">
+                    <ul>
+                        <li>Fully functional webserver written in C with socket calls.
+                        </li>
+                        <li>Dynamic frontend with audio effects and responsive CSS.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+        <script src='./js/physics1a_project.js'></script>
+        <script src="./js/accordion.js"></script>
+        <script src='./js/sounds.js'></script>
 </body>

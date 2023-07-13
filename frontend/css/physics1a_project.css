@@ -87,6 +87,12 @@ body::-webkit-scrollbar-thumb {
     transition: max-height 0.5s;
 }
 
+.text {
+    font-size: 16px;
+    padding: 20px;
+    color: var(--green);
+}
+
 .accordion-content li {
     font-size: 16px;
     padding: 10px;
@@ -106,6 +112,8 @@ body::-webkit-scrollbar-thumb {
 #parent {
     display: flex;
     flex-direction: column;
+    margin: 20px;
+    font-size: 18px;
     width: 100%;
     height: 100%;
 }
@@ -113,46 +121,42 @@ body::-webkit-scrollbar-thumb {
 #simulation {
     display: flex;
     align-items: center;
-    margin: 20px;
     height: 300px;
     width: 300px;
 }
 
 #line {
-    border-bottom: 1px solid var(--red);
+    border-bottom: 3px solid var(--red);
     width: 100%;
 }
 
-
 #block {
-    background-color: var(--light-gray);
-    /* make the width of the block 30px */ 
-    border: 1px solid var(--green);
-    height: 28px;
-    width: 28px;    
-    text-align: center;
-    font-size: 8px;
-    font-weight: bold;
-
-    margin-left: 0;
+    width: 60px;
+    margin-bottom: -1px;
 }
 
 #label {
-    /* position: absolute; */
-    text-align: center;
+    justify-content: space-between;
+    display: flex;
     width: 100%;
-    top: 100%;
-    padding-top: 10px;
-    font-size: 12px;
-    flex: 1;
+    font-size: 15px;
 }
+#label span {
+    margin-top: 35px;
+}
+/* #label span:last-child {
+    align-self: flex-end;
+} */
 
 .option-container {
     margin: 20px;
+    font-size: 18px;
 }
 
 .option-container div {
-    padding: 7px;
+    text-align: left;
+    font-size: 14px;
+    padding: 6px;
 }
 
 .button-container {
@@ -162,9 +166,8 @@ body::-webkit-scrollbar-thumb {
 
 .button {
     width: 100%;
-    margin-top: 8px;
-    padding: 5px;
-    font-size: 16px;
+    margin-top: 20px;
+    padding: 10px;
     text-align: center;
     color: var(--white);
     border-radius: 4px;
@@ -186,5 +189,79 @@ body::-webkit-scrollbar-thumb {
 
 .button:hover {
     cursor: pointer;
-    filter: brightness(76%);
+    filter: brightness(75%);
+}
+
+/* graphs */
+/* The parent element */
+.graphs {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    font-size: 18px;
+    margin: 20px;
+}
+
+.graph:first-child {
+    margin-right: 20px;
+}
+
+/* .graphs> div:not(:only-child):last-of-type {
+    margin-top: auto;
+} */
+
+.css-chart {
+    /* The chart borders */
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    /* The height, which is initially defined in the HTML */
+    height: var(--widget-size);
+    /* A little breathing room should there be others items around the chart */
+    margin: 1em;
+    /* Remove any padding so we have as much space to work with inside the element */
+    padding: 0;
+    position: relative;
+    /* The chart width, as defined in the HTML */
+    width: var(--widget-size);
+
+    display: grid;
+}
+
+/* The unordered list holding the data points, no list styling and no spacing */
+.line-chart {
+    background-size: 15px 15px;
+    background-image:
+    linear-gradient(to right, var(--gray) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--gray) 1px, transparent 1px);
+}
+
+
+/* Each point on the chart, each a 12px circle with a light border */
+.data-point {
+    background-color: var(--red);
+    border-radius: 50%;
+    height: 3px;
+    width: 3px;
+    position: absolute;
+}
+
+.bottom-labels {
+    display: flex;
+}
+
+.bottom-labels div {
+    font-size: 13px;
+    padding: 0 4px;
+    transform: rotate(-60deg);
+}
+
+.left-labels {
+    margin-top: 15px;
+
+}
+
+.left-labels div {
+    font-size: 13px;
+    padding: 8px 0;
+    transform: rotate(-60deg);
 }
