@@ -18,10 +18,10 @@
 
 body {
     margin: 0;
+    text-align: center;
     font-family: "Roboto Mono", monospace;
     background-color: var(--dark-blue);
     color: var(--white);
-    overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -40,7 +40,7 @@ body::-webkit-scrollbar-thumb {
 
 /* main page */
 .canvas {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     text-align: center;
     flex-direction: column;
