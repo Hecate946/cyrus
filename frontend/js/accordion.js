@@ -4,7 +4,6 @@ var accordLabels = document.querySelectorAll(".accordion-label");
 accordLabels.forEach(function (label) {
     label.addEventListener("click", function () {
         var content = label.nextElementSibling;
-        console.log(content.scrollHeight);
         if (!content.style.maxHeight || content.style.maxHeight === "0px") {
             page_sound.play();
             label.classList.add("active");
