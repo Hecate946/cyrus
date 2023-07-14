@@ -59,7 +59,7 @@ function handleForm(button) {
     TIME_LABEL.innerHTML = "Time: 0 ms";
     DISTANCE_LABEL.innerHTML = "Distance: 0 m";
     // rotate the line.
-    LINE.style.transform = `rotate(${slope}deg)`
+    LINE.style.transform = `rotate(${-slope}deg)`
 
     // clear the graphs
     DGRAPH.innerHTML = "";
