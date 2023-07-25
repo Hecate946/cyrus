@@ -12,7 +12,7 @@ function handleForm(button) {
     const BLOCK = document.getElementById("block");
     const LINE = document.getElementById("line");
     // 1 meter = 30 pixels for our animation.
-    const METERS_TO_PIXELS = LINE.offsetWidth/10
+    const METERS_TO_PIXELS = LINE.offsetWidth / 10
     const TOTAL_TRAVEL_DISTANCE = (LINE.offsetWidth - BLOCK.offsetWidth) / METERS_TO_PIXELS;
 
     // establish the form input variables.
@@ -40,7 +40,7 @@ function handleForm(button) {
         alert("Gravity acceleration value must be a positive real number");
         return;
     }
-    if (isNaN(staticFriction) || staticFriction < 0 ) {
+    if (isNaN(staticFriction) || staticFriction < 0) {
         alert("Static frictional coefficient must be a positive real number");
         return;
     }
@@ -59,7 +59,7 @@ function handleForm(button) {
     TIME_LABEL.innerHTML = "Time: 0 ms";
     DISTANCE_LABEL.innerHTML = "Distance: 0 m";
     // rotate the line.
-    LINE.style.transform = `rotate(${-slope}deg)`
+    LINE.style.transform = `rotate(${slope}deg)`
 
     // clear the graphs
     DGRAPH.innerHTML = "";
@@ -74,7 +74,7 @@ function handleForm(button) {
 
     // move the block to a position based on time in milliseconds.
     function moveBlock(timeMs) {
-        timeMs+=5.3; // time measured on my computer to match actual times.
+        timeMs += 5.3; // time measured on my computer to match actual times.
         // distance in meters.
         var distToMove = distanceFromTimeMs(timeMs);
         if (distToMove == 0) {
@@ -100,9 +100,10 @@ function handleForm(button) {
         }, 1); // this function runs once per millisecond.
     }
 
-    function toRadians (angle) { // utility function
+    function toRadians(angle) { // utility function
         return angle * (Math.PI / 180);
     }
+
     function calculateAcceleration() {
         var forceParallel = mass * gravity * Math.sin(toRadians(slope)) + force;
         var normalForce = mass * gravity * Math.cos(toRadians(slope));
@@ -114,14 +115,17 @@ function handleForm(button) {
 
         var kineticFrictionalForce = normalForce * kineticFriction;
         var totalForce = forceParallel - kineticFrictionalForce;
+        if (totalForce < 0) {
+            return 0; // frictional force was greater than the parallel force, so no motion occurs.
+        }
         return totalForce / mass;
     }
 
     function timeMsFromDistance(meters) {
         var accel = calculateAcceleration();
         // time = sqrt(distance/(1/2 * accel))
-        var time = Math.sqrt(meters/(0.5 * accel));
-        return Math.round(time*1000);
+        var time = Math.sqrt(meters / (0.5 * accel));
+        return Math.round(time * 1000);
     }
 
     function distanceFromTimeMs(timeMs) {
@@ -142,7 +146,7 @@ function handleForm(button) {
 
         var div = document.createElement("div");
         div.classList.add("data-point");
-        div.style.bottom =  bottom + "px";
+        div.style.bottom = bottom + "px";
         div.style.left = left + "px";
         DGRAPH.appendChild(div);
     }
@@ -158,7 +162,7 @@ function handleForm(button) {
 
         var div = document.createElement("div");
         div.classList.add("data-point");
-        div.style.bottom =  bottom + "px";
+        div.style.bottom = bottom + "px";
         div.style.left = left + "px";
         VGRAPH.appendChild(div);
     }

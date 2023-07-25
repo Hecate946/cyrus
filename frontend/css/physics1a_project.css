@@ -45,7 +45,8 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     text-align: center;
     flex-direction: column;
-}  
+}
+
 /* Accordion */
 
 .card {
@@ -257,4 +258,10 @@ body::-webkit-scrollbar-thumb {
     font-size: 13px;
     padding: 8px 0;
     transform: rotate(-60deg);
+}
+
+.equations {
+    margin-left: 40px;
+    color: rgb(149, 156, 166);
+    font-weight: lighter;
 }
