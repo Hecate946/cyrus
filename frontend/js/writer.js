@@ -93,7 +93,7 @@ const JS = `
 &emsp; &emsp; <span style='color: #FF0000'>static</span> <span style='color: #A200A2'> get </span> <span style='color: #4CC8F5'> MAJORS        </span> <span style='color: #F8F8F0'> () { </span> <span style='color: #A200A2'> return </span> [<span style='color: #11575C'> "Music Performance"<span style='color: white'>,</span> "Computer Science" </span>] ; }<br>
 &emsp; &emsp; <span style='color: #FF0000'>static</span> <span style='color: #A200A2'> get </span> <span style='color: #4CC8F5'> HOMETOWN      </span> <span style='color: #F8F8F0'> () { </span> <span style='color: #A200A2'> return </span> <span style='color: #11575C'> "San Diego"                               </span>; }<br>
 &emsp; &emsp; <span style='color: #FF0000'>static</span> <span style='color: #A200A2'> get </span> <span style='color: #4CC8F5'> STATUS        </span> <span style='color: #F8F8F0'> () { </span> <span style='color: #A200A2'> return </span> <span style='color: #11575C'> "Taken :)"                                </span>; }<br>
-&emsp; &emsp; <span style='color: #FF0000'>static</span> <span style='color: #A200A2'> get </span> <span style='color: #4CC8F5'> CHESS_ELO     </span> <span style='color: #F8F8F0'> () { </span> <span style='color: #A200A2'> return </span> <span style='color: #00D54B'> 2360                                      </span>; }<br>
+&emsp; &emsp; <span style='color: #FF0000'>static</span> <span style='color: #A200A2'> get </span> <span style='color: #4CC8F5'> CHESS_ELO     </span> <span style='color: #F8F8F0'> () { </span> <span style='color: #A200A2'> return </span> <span style='color: #00D54B'> 2450                                      </span>; }<br>
 &emsp; &emsp; <span style='color: #FF0000'>static</span> <span style='color: #A200A2'> get </span> <span style='color: #4CC8F5'> FAVORITE_BOOK </span> <span style='color: #F8F8F0'> () { </span> <span style='color: #A200A2'> return </span> <span style='color: #11575C'> "100 Years of Solitude (Marquez)"         </span>; }<br>
 }<br>
 <span style='color: #FF008C'>console</span>.<span style='color: #4CC8F5'>log</span>(<span style='color: #11575C'>"Hi! My name is "</span>, <span style='color: #FF008C'>Hecate946</span>.NAME);
@@ -110,7 +110,7 @@ const PY = `
 &emsp; &emsp; <span style='color: #FF0000'>MAJORS            = </span>  [<span style='color: #11575C'> "Music Performance"<span style='color: white'>,</span> "Computer Science" </span>]<br>
 &emsp; &emsp; <span style='color: #FF0000'>HOMETOWN          = </span>  <span style='color: #11575C'> "San Diego"                               </span><br>
 &emsp; &emsp; <span style='color: #FF0000'>STATUS            = </span>  <span style='color: #11575C'> "Taken :)"                                </span><br>
-&emsp; &emsp; <span style='color: #FF0000'>CHESS_ELO         = </span>  <span style='color: #00D54B'> 2360                                      </span><br>
+&emsp; &emsp; <span style='color: #FF0000'>CHESS_ELO         = </span>  <span style='color: #00D54B'> 2450                                      </span><br>
 &emsp; &emsp; <span style='color: #FF0000'>FAVORITE_BOOK     = </span>  <span style='color: #11575C'> "100 Years of Solitude (Marquez)"         </span><br>
 <span style='color: #4CC8F5'>print</span>(<span style='color: #11575C'>"Hi! My name is "</span>, <span style='color: #FF008C'>Hecate946</span>.NAME)
 `.replace(/\s+/g, " ");
@@ -130,7 +130,7 @@ const CPP = `
  &emsp; &emsp; &emsp; &emsp; <span style='color: #a200a2'> string </span> MAJORS[<span style='color: #00D54B'>2</span>]            = </span>  {<span style='color: #11575C'> "Music Performance"<span style='color: white'>,</span> "Computer Science" </span>};<br>
  &emsp; &emsp; &emsp; &emsp; <span style='color: #a200a2'> string </span> HOMETOWN          = </span>  <span style='color: #11575C'> "San Diego"</span>;<br>
  &emsp; &emsp; &emsp; &emsp; <span style='color: #a200a2'> string </span> STATUS            = </span>  <span style='color: #11575C'> "Taken :)"</span>;<br>
- &emsp; &emsp; &emsp; &emsp; <span style='color: #a200a2'> int    </span> CHESS_ELO         = </span>  <span style='color: #00D54B'> 2360</span>;<br>
+ &emsp; &emsp; &emsp; &emsp; <span style='color: #a200a2'> int    </span> CHESS_ELO         = </span>  <span style='color: #00D54B'> 2450</span>;<br>
  &emsp; &emsp; &emsp; &emsp; <span style='color: #a200a2'> string </span> FAVORITE_BOOK     = </span>  <span style='color: #11575C'> "100 Years of Solitude (Marquez)"</span>;<br>
 };<br>
 <span style='color: #A200A2'> int </span> <span style='color: #4CC8F5'>main</span>() {<br>
@@ -161,7 +161,7 @@ const C = `
     &emsp; &emsp; <span style='color: #FF008C'>Hecate946</span>.MAJORS[<span style='color: #00D54B'>1</span>]           <span style='color: #FF0000'> = </span>  <span style='color: #11575C'> "Computer Science"                       </span>;<br>
     &emsp; &emsp; <span style='color: #FF008C'>Hecate946</span>.HOMETOWN         <span style='color: #FF0000'> = </span>  <span style='color: #11575C'> "San Diego"</span>;<br>
     &emsp; &emsp; <span style='color: #FF008C'>Hecate946</span>.STATUS           <span style='color: #FF0000'> = </span>  <span style='color: #11575C'> "Taken :)"</span>;<br>
-    &emsp; &emsp; <span style='color: #FF008C'>Hecate946</span>.CHESS_ELO        <span style='color: #FF0000'> = </span>  <span style='color: #00D54B'> 2360</span>;<br>
+    &emsp; &emsp; <span style='color: #FF008C'>Hecate946</span>.CHESS_ELO        <span style='color: #FF0000'> = </span>  <span style='color: #00D54B'> 2450</span>;<br>
     &emsp; &emsp; <span style='color: #FF008C'>Hecate946</span>.FAVORITE_BOOK    <span style='color: #FF0000'> = </span>  <span style='color: #11575C'> "100 Years of Solitude (Marquez)"</span>;<br>
     &emsp; &emsp; <span style='color: #4CC8F5'>printf</span>(<span style='color: #11575C'>"Hi! My name is <span style='color: #FF0000'>%s\\n</span>"</span>, <span style='color: #FF008C'>Hecate946</span>.NAME);<br>
     &emsp; &emsp; <span style='color: #A200A2'> return </span> <span style='color: #00D54B'>0</span>;<br>
