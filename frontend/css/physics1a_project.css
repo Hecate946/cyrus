@@ -194,6 +194,7 @@ body::-webkit-scrollbar-thumb {
     justify-content: center;
     font-size: 18px;
     margin: 20px;
+    /* scale: 95%; */
 }
 
 .graph:first-child {
@@ -258,6 +259,20 @@ body::-webkit-scrollbar-thumb {
     font-size: 13px;
     padding: 8px 0;
     transform: rotate(-60deg);
+}
+
+.left-axis-label {
+    transform: rotate(180deg);
+    writing-mode: vertical-rl;
+    text-align: center;
+    padding: 10px;
+    padding-top: 50px;
+    font-size: 15px;
+}
+
+.bottom-axis-label {
+    font-size: 15px;
+    padding-top: 20px;
 }
 
 .equations {
