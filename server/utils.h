@@ -11,6 +11,5 @@ extern void file_free(struct file_data *filedata);
 extern char *get_content_type(char *filename);
 extern char *find_body(char *request);
 extern char *get_uptime_string(int seconds);
-extern int strlen_int(int value);
 
 #endif

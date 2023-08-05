@@ -13,10 +13,10 @@
 #include <sys/file.h>
 #include <fcntl.h>
 #include <pthread.h>
+
 #include "net.h"
 #include "utils.h"
 #include "cache.h"
-#include "usage.h"
 
 #define WEBSERVER_PORT "80"          // the port to host the webserver.
 #define LOCALHOST_PORT "8080"        // port to host webserver if WEBSERVER_PORT is in use
@@ -66,76 +66,6 @@ int send_response(int fd, char *header, char *content_type, void *body, int cont
         perror("send");
     }
     return rv;
-}
-
-// return stats page json.
-/*
-total website views
-user website views w page breakdown
-host OS info
-user OS info/IP address.
-*/
-void api_get_stats(int fd)
-{
-
-    double cpu_usage_percent = get_cpu_usage();
-    int pid = getpid();
-    // get os system info from utsname.h
-    struct utsname uts;
-    uname(&uts);
-
-    // get the number of cpu cores we have.
-    int cores = sysconf(_SC_NPROCESSORS_ONLN);
-    // get physical and virtual memory usage stats (usage.c).
-    int total_mem = get_total_physical_memory();
-    int used_mem = get_current_physical_memory();
-    int proc_mem = get_proc_physical_memory();
-    int total_vm = get_total_virtual_memory();
-    int used_vm = get_current_virtual_memory();
-    int proc_vm = get_proc_virtual_memory();
-
-    // get current unix time
-    time_t unix_time;
-    time(&unix_time);
-    // get the difference between current time and start time.
-    double diff = difftime(unix_time, START_UNIX_TIME);
-    // get our uptime string from utils helper function.
-    char *uptime = get_uptime_string((int)diff);
-    // create json format string.
-    char *jsonstr = // "{\"status\": \"ok\", "
-        "{\"Host Computer\"          : \"%s\", "
-        "\"Host OS\"                 : \"%s\", "
-        "\"Host Hardware\"           : \"%s\", "
-        "\"Host CPU Cores\"          : \"%d\", "
-        // "\"os_release\"           : \"%s\", "
-        // "\"os_version\"           : \"%s\", "
-        "\"Website PID\"             : \"%d\", "
-        "\"Website Uptime\"          : \"%s\", "
-        "\"Total physical memory\"   : \"%d\", "
-        "\"Physical memory used\"    : \"%d\", "
-        "\"Website physical memory\" : \"%d\", "
-        "\"Total virtual memory\"    : \"%d\", "
-        "\"Virtual memory used\"     : \"%d\", "
-        "\"Website virtual memory\"  : \"%d\", "
-        "\"CPU usage percent\"       : \"%f\"}";
-    // calculate size to malloc from json string and uptime string.
-    // note the formatting in the json string gives a few extra bytes.
-    size_t to_malloc = strlen(uts.nodename) + strlen(uts.sysname) + strlen(uts.machine) +
-                       strlen(uts.release) + strlen(uts.version) + strlen(uptime) + strlen_int(total_mem) +
-                       strlen_int(used_mem) + strlen_int(proc_mem) + strlen_int(total_vm) + strlen_int(used_vm) +
-                       strlen_int(proc_vm) + strlen_int(cores) + strlen_int(pid) + strlen(jsonstr) + 16; // for double.
-    // dynamically allocate the buffer.
-    char *buffer = malloc(to_malloc);
-    // store all json data in the buffer.
-    snprintf(
-        buffer, to_malloc, jsonstr, uts.nodename, uts.sysname, uts.machine, // uts.release, uts.version,
-        cores, pid, uptime, total_mem, used_mem, proc_mem, total_vm, used_vm, proc_vm, cpu_usage_percent);
-    // send out json response.
-    send_response(fd, "HTTP/1.1 200 OK", "application/json", buffer, strlen(buffer));
-    // free uptime string allocated in utils.c.
-    free(uptime);
-    // free the buffer.
-    free(buffer);
 }
 
 // send a 404 response
@@ -251,10 +181,6 @@ void handle_http_request(int fd, struct cache *cache)
         { // serve the root file.
             get_file(fd, cache, ROOT_HTML_FILE);
         }
-        else if (strcmp(request_path, "/api/get_stats") == 0)
-        {
-            api_get_stats(fd);
-        }
         else
         {
             // serve a file to the client.
@@ -277,10 +203,6 @@ void handle_http_request(int fd, struct cache *cache)
 // run the webserver
 int main(void)
 {
-    // spawn thread to track CPU usage.
-    pthread_t tid;
-    pthread_create(&tid, NULL, cpu_tracker, NULL);
-
     time(&START_UNIX_TIME);             // update uptime variable.
     int newfd;                          // listen on sock_fd, new connection on newfd.
     struct sockaddr_storage their_addr; // connector's address information.

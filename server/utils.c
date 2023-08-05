@@ -159,17 +159,6 @@ char *find_body(char *request)
     return NULL;
     // TODO: handle invalid post request.
 }
-// helper function to calculate the length of an int.
-int strlen_int(int value)
-{
-    int l = 1;
-    while (value > 9)
-    {
-        l++;
-        value /= 10;
-    }
-    return l;
-}
 
 // converts second into days, hours, minutes and seconds
 char *get_uptime_string(int n)
@@ -186,8 +175,8 @@ char *get_uptime_string(int n)
     int seconds = n;
 
     // define unpluralized strings.
-    char daystring[8] = "day";
-    char hourstring[8] = "hour";
+    char daystring[5] = "day";
+    char hourstring[6] = "hour";
     char minutestring[8] = "minute";
     char secondstring[8] = "second";
     // pluralize the strings.
@@ -210,20 +199,10 @@ char *get_uptime_string(int n)
     // define format string.
     char *string = "%d %s, %d %s, %d %s, %d %s";
     // calculate size to malloc.
-    size_t to_malloc = (strlen(string) +
-                        strlen(daystring) +
-                        strlen(hourstring) +
-                        strlen(minutestring) +
-                        strlen(secondstring) +
-                        strlen_int(days) +
-                        strlen_int(hours) +
-                        strlen_int(minutes) +
-                        strlen_int(seconds));
-    // dynamically allocate our result string
-    char *result = malloc(to_malloc);
-    // load in the whole string.
-    snprintf(result, to_malloc, string, days, daystring,
-             hours, hourstring, minutes, minutestring, seconds, secondstring);
+   
+    size_t nbytes = 1 + snprintf(NULL, 0, string, days, daystring, hours, hourstring, minutes, minutestring, seconds, secondstring);
+    char *result = malloc(nbytes);
+    snprintf(result, nbytes, string, days, daystring, hours, hourstring, minutes, minutestring, seconds, secondstring);
     // return the result.
     return result;
 }

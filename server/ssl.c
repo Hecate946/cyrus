@@ -104,16 +104,11 @@ void Servlet(SSL* ssl) /* Serve the connection -- threadable */
 {
     char buf[1024] = {0};
     int sd, bytes;
-    const char* ServerResponse="<\Body>\
-                               <Name>aticleworld.com</Name>\
-                 <year>1.5</year>\
-                 <BlogType>Embedede and c\c++<\BlogType>\
-                 <Author>amlendra<Author>\
-                 <\Body>";
+    const char* ServerResponse="hiii";
     const char *cpValidMessage = "<Body>\
                                <UserName>aticle<UserName>\
                  <Password>123<Password>\
-                 <\Body>";
+                 <\\Body>";
     if ( SSL_accept(ssl) == FAIL )     /* do SSL-protocol accept */
         ERR_print_errors_fp(stderr);
     else
@@ -163,7 +158,7 @@ int main(int count, char *Argc[])
     SSL_library_init();
     portnum = Argc[1];
     ctx = InitServerCTX();        /* initialize SSL */
-    LoadCertificates(ctx, "mycert.pem", "mycert.pem"); /* load certs */
+    LoadCertificates(ctx, "/etc/letsencrypt/live/hecate946.com/cert.pem", "/etc/letsencrypt/live/hecate946.com/privkey.pem"); /* load certs */
     server = OpenListener(atoi(portnum));    /* create server socket */
     while (1)
     {

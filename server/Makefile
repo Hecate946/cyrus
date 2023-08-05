@@ -1,7 +1,7 @@
 CC=gcc
-CFLAGS=-Wall -pthread -lpthread
+CFLAGS=-Wall -pthread -lpthread -fstack-protector -O2
 
-OBJS=server.o net.o utils.o cache.o hashtable.o llist.o usage.o
+OBJS=server.o net.o utils.o cache.o hashtable.o llist.o
 
 all: webserver
 
@@ -19,8 +19,6 @@ cache.o: cache.c cache.h
 hashtable.o: hashtable.c hashtable.h
 
 llist.o: llist.c llist.h
-
-usage.o: usage.c usage.h
 
 clean:
 	rm -f $(OBJS)
