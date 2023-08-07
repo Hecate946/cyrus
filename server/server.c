@@ -106,16 +106,6 @@ void get_file(int fd, struct cache *cache, char *request_path)
         return get_file(fd, cache, "/assets/icons/favicon.ico");
     }
 
-    // get the file extension from the filename.
-    char *ext = strrchr(request_path, '.');
-    // if no extension, try adding '.html'
-    // this maps /about to /about.html etc...
-    if (ext == NULL)
-    {
-        // add .html to the end of the request path.
-        strcat(request_path, ".html");
-    }
-    // attempt to load the file from the cache using the request_path.
     struct cache_entry *entry = cache_get(cache, request_path);
     if (entry)
     { // we have the file in the cache, serve it.
@@ -154,50 +144,38 @@ void get_file(int fd, struct cache *cache, char *request_path)
 // handle the http request and send the response
 void handle_http_request(int fd, struct cache *cache)
 {
-    const int request_buffer_size = 65536; // 64k
+    const int request_buffer_size = 65536; // 64K
     char request[request_buffer_size];
 
-    // read in the request
+    char *path, *verb;
+    const char GET[] = "GET";
+    const char ROOT[] = "/";
+
+    // Read request
     int bytes_recvd = recv(fd, request, request_buffer_size - 1, 0);
-    // didn't get anything
+
     if (bytes_recvd < 0)
-    { // log the error.
+    {
         perror("recv");
-        // exit the function.
         return;
     }
 
-    // 10 to allow room for request types like connect or options
-    char request_type[10];
-    // dynamically allocate the maximum possible pathname to ensure no overflow.
-    char *request_path = malloc(strlen(request) + 1);
-    // update the request type and request path with data from the request.
-    sscanf(request, "%s %s", request_type, request_path);
-    // handle the 'GET' request type.
-    if (strcmp(request_type, "GET") == 0)
+    // Read the first two components of the first line of the request
+    verb = strtok(request, " ");
+    path = strtok(NULL, " ");
+
+    // If GET, handle the get endpoints
+    if (strcmp(verb, GET) == 0)
     {
-        // point root path to our root html file.
-        if (strcmp(request_path, "/") == 0)
-        { // serve the root file.
+        if (strcmp(path, ROOT) == 0)
+        {
             get_file(fd, cache, ROOT_HTML_FILE);
         }
         else
         {
-            // serve a file to the client.
-            get_file(fd, cache, request_path);
+            get_file(fd, cache, path);
         }
     }
-    // handle the 'POST' request type.
-    else if (strcmp(request_type, "POST") == 0)
-    {
-        find_body(request);
-    }
-    else
-    {
-        // TODO: maybe handle put requests?
-    }
-    // free the dynamically allocated request path.
-    free(request_path);
 }
 
 // run the webserver
