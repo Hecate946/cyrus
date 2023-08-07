@@ -1,5 +1,9 @@
 ## My personal website
 
+## Note for Physics Project:
+The html file is located at frontend/physics1a_project.html
+The css styling file is located at: frontend/css/physics1a_project.css
+The javascript code powering the simulation is found at: frontend/js/physics1a_project.js
 #### Goals:
 be extremely fast.
 write good css.
@@ -10,6 +14,3 @@ clone the repository
 cd into the directory
 run `./start` then visit localhost:80
 
-yes, it's that easy. oh but you need gcc so use linux. im not gonna write selfhost guides for windows or mac. if you use windows you're beyond hope.
-i like to make code retard-friendly.
-just look at the comments i write for proof.

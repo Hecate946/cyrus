@@ -280,3 +280,9 @@ body::-webkit-scrollbar-thumb {
     color: rgb(149, 156, 166);
     font-weight: lighter;
 }
+.yellow {
+    color: rgb(218, 193, 0);
+}
+.gray {
+    color: rgb(182, 183, 193);
+}
