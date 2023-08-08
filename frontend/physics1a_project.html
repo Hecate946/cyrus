@@ -2,7 +2,294 @@
 <html>
 
 <head>
-    <link rel='stylesheet' type='text/css' href='./css/physics1a_project.css' />
+    <style>
+        :root {
+            --dark-blue: #060e16;
+            --lighter-dark-blue: #0e2a38;
+            --pink: #ff62ef;
+            --purple: #52064a;
+            --white: #FFFFFF;
+            --black: #000000;
+            --light-gray: #979797;
+            --gray: #7d7d7d;
+            --gray-blue: #314659;
+            --green: #11575C;
+            --red: #FF0000;
+            --orange: #be6f00;
+            color: var(--white);
+            background-color: var(--dark-blue);
+            font-family: "Roboto Mono", monospace;
+        }
+
+        body {
+            margin: 0;
+            text-align: center;
+            font-family: "Roboto Mono", monospace;
+            background-color: var(--dark-blue);
+            color: var(--white);
+        }
+
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        body::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 20px rgba(0, 0, 0, 1);
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 7px rgba(255, 255, 255, 0.8);
+        }
+
+        /* main page */
+        .canvas {
+            scale: 90%;
+            display: inline-flex;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        /* Accordion */
+
+        .card {
+            border: 1px solid var(--gray);
+            min-width: 300px;
+        }
+
+        .accordion {
+            border-top: 1px solid var(--gray);
+        }
+
+        .accordion-label {
+            display: block;
+            text-align: left;
+            text-transform: uppercase;
+            font-style: bold;
+
+            padding: 20px;
+            cursor: pointer;
+            transition: background-color 0.5s;
+            /* for hover effect */
+        }
+
+        .accordion-label:hover,
+        .active {
+            background-color: var(--lighter-dark-blue);
+        }
+
+        .accordion-content {
+            max-height: 0px;
+            overflow: hidden;
+            padding: 0 20px;
+            transition: max-height 0.5s;
+        }
+
+        .text {
+            text-align: left;
+            font-size: 16px;
+            padding: 20px;
+            color: var(--green);
+        }
+
+        .accordion-content li {
+            font-size: 16px;
+            padding: 10px;
+            color: var(--green);
+        }
+
+
+        /* Simulation */
+
+        .simulation-parent {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            border-top: 1px solid var(--gray);
+            width: 100%;
+        }
+
+
+        #parent {
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+            font-size: 18px;
+        }
+
+        #simulation {
+            display: flex;
+            align-items: center;
+            height: 300px;
+            width: 300px;
+        }
+
+        #line {
+            border-bottom: 3px solid var(--red);
+            width: 100%;
+        }
+
+        #block {
+            width: 60px;
+            margin-bottom: -1px;
+        }
+
+        #label {
+            justify-content: space-between;
+            display: flex;
+            width: 100%;
+            font-size: 15px;
+        }
+
+        #label span {
+            margin-top: 35px;
+        }
+
+        .option-container {
+            margin: 20px;
+            font-size: 18px;
+        }
+
+        .option-container div {
+            text-align: left;
+            font-size: 14px;
+            padding: 6px;
+        }
+
+        .button-container {
+            display: flex;
+        }
+
+
+        .button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            color: var(--white);
+            border-radius: 4px;
+            background-color: var(--green);
+            box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.3),
+                0 6px 30px 0 rgba(255, 255, 255, 0.3);
+            transition: filter 0.5s ease;
+        }
+
+        .button:nth-child(2) {
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: var(--purple);
+        }
+
+        .button:last-child {
+            background-color: var(--orange);
+        }
+
+        .button:hover {
+            cursor: pointer;
+            filter: brightness(75%);
+        }
+
+        /* graphs */
+        /* The parent element */
+        .graphs {
+            display: flex;
+            /* flex-direction: column; */
+            justify-content: center;
+            font-size: 18px;
+            margin: 20px;
+            /* scale: 95%; */
+        }
+
+        .graph:first-child {
+            margin-right: 20px;
+        }
+
+        .css-chart {
+            /* The chart borders */
+            border-bottom: 1px solid;
+            border-left: 1px solid;
+            /* The height, which is initially defined in the HTML */
+            height: var(--widget-size);
+            /* A little breathing room should there be others items around the chart */
+            margin: 1em;
+            /* Remove any padding so we have as much space to work with inside the element */
+            padding: 0;
+            position: relative;
+            /* The chart width, as defined in the HTML */
+            width: var(--widget-size);
+
+            display: grid;
+        }
+
+        /* The unordered list holding the data points, no list styling and no spacing */
+        .line-chart {
+            background-size: 15px 15px;
+            background-image:
+                linear-gradient(to right, var(--gray) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--gray) 1px, transparent 1px);
+        }
+
+
+        /* Each point on the chart, each a 12px circle with a light border */
+        .data-point {
+            background-color: var(--red);
+            border-radius: 50%;
+            height: 3px;
+            width: 3px;
+            position: absolute;
+        }
+
+        .bottom-labels {
+            display: flex;
+        }
+
+        .bottom-labels div {
+            font-size: 13px;
+            padding: 0 4px;
+            transform: rotate(-60deg);
+        }
+
+        .left-labels {
+            margin-top: 15px;
+
+        }
+
+        .left-labels div {
+            font-size: 13px;
+            padding: 8px 0;
+            transform: rotate(-60deg);
+        }
+
+        .left-axis-label {
+            transform: rotate(180deg);
+            writing-mode: vertical-rl;
+            text-align: center;
+            padding: 10px;
+            padding-top: 50px;
+            font-size: 15px;
+        }
+
+        .bottom-axis-label {
+            font-size: 15px;
+            padding-top: 20px;
+        }
+
+        .equations {
+            margin-left: 40px;
+            color: rgb(149, 156, 166);
+            font-weight: lighter;
+        }
+
+        .yellow {
+            color: rgb(218, 193, 0);
+        }
+
+        .gray {
+            color: rgb(182, 183, 193);
+        }
+    </style>
     <title>Cyrus Asasi Physics 1A Project</title>
 </head>
 
@@ -21,8 +308,8 @@
                             The present research project aims to develop a comprehensive model to analyze the behavior
                             of an object sliding up or down an inclined plane. The research focuses on understanding the
                             physics involved in the sliding process and exploring the influence of various parameters on
-                            the object's
-                            object's trajectory, velocity and acceleration. The simulation will be based on fundamental
+                            the object's trajectory, velocity and acceleration. The simulation will be based on
+                            fundamental
                             principles of
                             classical mechanics and will consider the impact of key factors such as incline angle,
                             object mass, additional forces applied,
@@ -86,7 +373,7 @@
                         computations and design can be found by clicking the
                         orange "Code" button below or by visiting the following github link:
                         <a target="_blank"
-                            href="https://github.com/hecate946/hecate946.com">https://github.com/hecate946/hecate946.com</a>
+                            href="https://github.com/hecate946/hecate946.com/blob/master/frontend/physics1a_project.html">https://github.com/Hecate946/hecate946.com/blob/master/frontend/physics1a_project.html</a>
                         <p>
                             The velocity at which an object will slide across a plane is dependent on the following
                             factors:
@@ -143,7 +430,8 @@
                         </ol>
                         The simulation uses the physics outlined above to calculate the distance the object will travel
                         and its velocity at each millisecond.
-                        The results are then dynamically animated into the simulation and graphs using css and javascript
+                        The results are then dynamically animated into the simulation and graphs using css and
+                        javascript
                         </p>
                     </div>
                 </div>
@@ -205,7 +493,7 @@
                                 on Jupiter will be different from that same block sliding down a hill on Earth.
                             </li>
                         </ol>
-                        Overall, the simulation provides an interactive way for users to explore the interaction of
+                        Overall, the simulation provides an interactive way for users to explore the cohesion between
                         forces and motion on an inclined plane.
                         Through observation, users can see fundamental physics principles in action, gain practical
                         insights into the significance of friction,
@@ -219,11 +507,11 @@
                     <div class="text">
                         <p>
                         <ol>
-                            <li style="color: rgb(182, 183, 193);">Torres, Santiago. “Motion in 1D, 2D, and 3D/Newton’s
-                                Laws of Motion.” Lectures 5 &amp; 6. 9 July 2023. </li>
-                            <li style="color: rgb(182, 183, 193);">Young, Hugh D, and Roger A Freedman. “Chapter 4:
-                                Newton’s Laws of Motion.” University Physics with Modern Physics (15th Edition),
-                                Pearson, 2019, pp. 100–118.</li>
+                            <li style="color: rgb(182, 183, 193);">Torres, Santiago. "Motion in 1D, 2D, and 3D/Newton's
+                                Laws of Motion." Lectures 5 &amp; 6. 9 July 2023. </li>
+                            <li style="color: rgb(182, 183, 193);">Young, Hugh D, and Roger A Freedman. "Chapter 4:
+                                Newton's Laws of Motion." University Physics with Modern Physics (15th Edition),
+                                Pearson, 2019, pp. 100-118.</li>
                         </ol>
                         </p>
                     </div>
@@ -268,7 +556,7 @@
                             <button class="button close" type="button"
                                 onclick="javascript:handleForm('reset')">Reset</button>
                             <button class="button redirect" type="button"
-                                onclick='window.open("https://github.com/Hecate946/hecate946.com/blob/master/frontend/js/physics1a_project.js")'>Code</button>
+                                onclick='window.open("https://github.com/Hecate946/hecate946.com/blob/master/frontend/physics1a_project.html")'>Code</button>
                         </div>
                     </form>
                 </div>
@@ -365,7 +653,196 @@
                 </div>
             </div>
         </div>
-        <script src='./js/physics1a_project.js'></script>
-        <script src="./js/accordion.js"></script>
+        <script>
+
+            var timeout;
+            function handleForm(button) {
+
+                // establish some constant elements.
+
+                const DGRAPH = document.getElementById("distance-graph");
+                const VGRAPH = document.getElementById("velocity-graph");
+
+                const TIME_LABEL = document.getElementById("time-label");
+                const DISTANCE_LABEL = document.getElementById("distance-label");
+                const BLOCK = document.getElementById("block");
+                const LINE = document.getElementById("line");
+                // 1 meter = 30 pixels for our animation.
+                const METERS_TO_PIXELS = LINE.offsetWidth / 10
+                const TOTAL_TRAVEL_DISTANCE = (LINE.offsetWidth - BLOCK.offsetWidth) / METERS_TO_PIXELS;
+
+                // establish the form input variables.
+                var force = Number(document.getElementById('force').value);
+                var mass = Number(document.getElementById('mass').value);
+                var slope = Number(document.getElementById('slope').value);
+                var gravity = Number(document.getElementById('gravity').value);
+                var staticFriction = Number(document.getElementById('sfriction').value);
+                var kineticFriction = Number(document.getElementById('kfriction').value);
+
+                // do some checks on input validity.
+                if (isNaN(force) || force < 0) {
+                    alert("Force value must be a positive real number");
+                    return;
+                }
+                if (isNaN(mass) || mass < 0) {
+                    alert("Mass value must be a positive real number");
+                    return;
+                }
+                if (isNaN(slope) || slope < -90 || slope > 90) {
+                    alert("Slope must be between -90 and 90 degrees.");
+                    return;
+                }
+                if (isNaN(gravity) || gravity < 0) {
+                    alert("Gravity acceleration value must be a positive real number");
+                    return;
+                }
+                if (isNaN(staticFriction) || staticFriction < 0) {
+                    alert("Static frictional coefficient must be a positive real number");
+                    return;
+                }
+                if (isNaN(kineticFriction) || kineticFriction < 0) {
+                    alert("Kinetic frictional coefficient must be a positive real number");
+                    return;
+                }
+
+
+
+                // stop the recursive function in case we were running.
+                clearTimeout(timeout);
+                // put the block at starting position
+                BLOCK.style.marginLeft = 0;
+                // reset counters
+                TIME_LABEL.innerHTML = "Time: 0 ms";
+                DISTANCE_LABEL.innerHTML = "Distance: 0 m";
+                // rotate the line.
+                LINE.style.transform = `rotate(${slope}deg)`
+
+                // clear the graphs
+                DGRAPH.innerHTML = "";
+                VGRAPH.innerHTML = "";
+                if (button == "reset") {
+                    // we already reset all the counters
+                    return; // just return.
+                }
+
+                // start moving our block with time = 0.
+                moveBlock(0);
+
+                // move the block to a position based on time in milliseconds.
+                function moveBlock(timeMs) {
+                    timeMs += 5.3; // time measured on my computer to match actual times.
+                    // distance in meters.
+                    var distToMove = distanceFromTimeMs(timeMs);
+                    if (distToMove == 0) {
+                        return;
+                    }
+
+                    timeout = setTimeout(function () {
+                        TIME_LABEL.innerHTML = `Time: ${timeMs.toFixed(0)} ms`;
+                        DISTANCE_LABEL.innerHTML = `Distance: ${distToMove.toFixed(2)} m`;
+                        updateDistanceGraph(timeMs, distToMove);
+                        updateVelocityGraph(timeMs, distToMove);
+
+                        BLOCK.style.marginLeft = distToMove * METERS_TO_PIXELS + "px";
+                        moveBlock(timeMs); // run again.
+
+                        if (distToMove * METERS_TO_PIXELS + BLOCK.offsetWidth >= LINE.offsetWidth) { // we've reached the end.
+                            // update to reflect final values.
+                            TIME_LABEL.innerHTML = `Time: ${timeMsFromDistance(TOTAL_TRAVEL_DISTANCE)} ms`;
+                            DISTANCE_LABEL.innerHTML = `Distance: ${TOTAL_TRAVEL_DISTANCE.toFixed(2)} m`;
+                            BLOCK.style.marginLeft = LINE.offsetWidth - BLOCK.offsetWidth + "px";
+                            clearTimeout(timeout);
+                        }
+                    }, 1); // this function runs once per millisecond.
+                }
+
+                function toRadians(angle) { // utility function
+                    return angle * (Math.PI / 180);
+                }
+
+                function calculateAcceleration() {
+                    var forceParallel = mass * gravity * Math.sin(toRadians(slope)) + force;
+                    var normalForce = mass * gravity * Math.cos(toRadians(slope));
+
+                    var staticFrictionalForce = normalForce * staticFriction;
+                    if (staticFrictionalForce > forceParallel) {
+                        return 0; // no work needed, the block won't move.
+                    }
+
+                    var kineticFrictionalForce = normalForce * kineticFriction;
+                    var totalForce = forceParallel - kineticFrictionalForce;
+                    if (totalForce < 0) {
+                        return 0; // frictional force was greater than the parallel force, so no motion occurs.
+                    }
+                    return totalForce / mass;
+                }
+
+                function timeMsFromDistance(meters) {
+                    var accel = calculateAcceleration();
+                    // time = sqrt(distance/(1/2 * accel))
+                    var time = Math.sqrt(meters / (0.5 * accel));
+                    return Math.round(time * 1000);
+                }
+
+                function distanceFromTimeMs(timeMs) {
+                    var t = timeMs / 1000; // convert from ms to seconds.
+                    var accel = calculateAcceleration();
+                    // distance = 1/2 * accel * time^2
+                    return 0.5 * accel * t * t;
+                }
+
+                function updateDistanceGraph(time, distance) {
+                    // 1 meter = 30 px
+                    // 1 ms = 30 px/100 ms
+                    var bottom = 30 * distance;
+                    var left = 0.30 * time;
+                    if (bottom >= 300 || left >= 300) {
+                        return;
+                    }
+
+                    var div = document.createElement("div");
+                    div.classList.add("data-point");
+                    div.style.bottom = bottom + "px";
+                    div.style.left = left + "px";
+                    DGRAPH.appendChild(div);
+                }
+
+                function updateVelocityGraph(time, distance) {
+                    // 1 meter = 30 px
+                    // 1 ms = 30 px/100 ms
+                    var bottom = 30 * distance / (time / 1000);
+                    var left = 0.30 * time;
+                    if (bottom >= 300 || left >= 300) {
+                        return;
+                    }
+
+                    var div = document.createElement("div");
+                    div.classList.add("data-point");
+                    div.style.bottom = bottom + "px";
+                    div.style.left = left + "px";
+                    VGRAPH.appendChild(div);
+                }
+            }
+            // for accordion:
+            const page_sound = new Audio("./assets/sounds/page.mp3");
+            const page_sound2 = new Audio("./assets/sounds/page_close.mp3");
+            var accordLabels = document.querySelectorAll(".accordion-label");
+            accordLabels.forEach(function (label) {
+                label.addEventListener("click", function () {
+                    var content = label.nextElementSibling;
+                    if (!content.style.maxHeight || content.style.maxHeight === "0px") {
+                        page_sound.play();
+                        label.classList.add("active");
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                    else {
+                        page_sound2.play();
+                        label.classList.remove("active");
+                        content.style.maxHeight = "0px";
+                    }
+                });
+            });
+
+        </script>
         <script src='./js/sounds.js'></script>
 </body>
